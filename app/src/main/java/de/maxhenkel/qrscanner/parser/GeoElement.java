@@ -104,7 +104,7 @@ public class GeoElement extends ScanElement {
         latText.setText(String.valueOf(lat));
 
         TextView lngText = activity.findViewById(R.id.lng);
-        lngText.setText(String.valueOf(lat));
+        lngText.setText(String.valueOf(lng));
 
         TextView altitudeText = activity.findViewById(R.id.altitude);
         if (altitude > 0D) {
