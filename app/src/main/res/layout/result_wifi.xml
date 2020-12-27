@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/result" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="@string/title_wifi_auth_type"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/auth"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColorLink="@color/white"
+                android:textSize="24sp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:text="@string/title_wifi_ssid"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/ssid"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColorLink="@color/white"
+                android:textSize="24sp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:text="@string/title_wifi_password"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/password"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColorLink="@color/white"
+                android:textSize="24sp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true"/>
+
+            <TextView
+                android:text="@string/title_wifi_other"
+                android:id="@+id/titleOther"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/other"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textColorLink="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="monospace"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true"/>
+
+            <Button
+                android:id="@+id/saveWifi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/open_wifi" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/result" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/url"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:autoLink="web"
+                android:textColorLink="@color/white"
+                android:textSize="24sp"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true">
+            </TextView>
+
+            <Button
+                android:id="@+id/openLink"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/open_link" />
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

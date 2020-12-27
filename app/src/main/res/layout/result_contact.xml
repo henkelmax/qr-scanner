@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include layout="@layout/result" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:text="@string/title_contact"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:textSize="24sp"
+                android:layout_marginHorizontal="10dp"
+                android:layout_marginTop="10dp"/>
+
+            <TextView
+                android:id="@+id/contact"
+                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:autoLink="all"
+                android:textColorLink="@color/white"
+                android:textSize="20sp"
+                android:fontFamily="monospace"
+                android:layout_margin="10dp"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:background="@color/primary"
+                android:textIsSelectable="true"/>
+
+            <Button
+                android:id="@+id/addContact"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="10dp"
+                android:text="@string/open_contact" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
