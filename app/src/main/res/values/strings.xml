@@ -10,7 +10,7 @@
     <string name="open_wifi">Save WI-FI Configuration</string>
     <string name="open_store">Open Play Store</string>
     <string name="title_numbers">Number(s)</string>
-    <string name="title_emails">E-Mail(s)</string>
+    <string name="title_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
     <string name="title_email_bcc">BCC</string>
     <string name="title_email_subject">Subject</string>
@@ -39,7 +39,7 @@
     <string name="type_contact">Contact Information</string>
     <string name="type_geo">Geographic Information</string>
     <string name="type_event">Event</string>
-    <string name="type_wifi">Wi-Fi Network config</string>
+    <string name="type_wifi">Wi-Fi Network Config</string>
     <string name="type_store">Play Store App</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
@@ -48,5 +48,5 @@
     <string name="toast_save_success">Successfully saved file</string>
     <string name="toast_save_failed">Failed saving file</string>
     <string name="view_raw">View Raw</string>
-    <string name="save">Save File</string>
+    <string name="save">Save as File</string>
 </resources>

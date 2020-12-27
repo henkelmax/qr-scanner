@@ -16,18 +16,10 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/Theme.ValueTextViewMonospace"
                 android:id="@+id/text"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:autoLink="phone"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

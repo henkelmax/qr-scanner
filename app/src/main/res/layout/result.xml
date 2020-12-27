@@ -5,33 +5,38 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
     <TextView
+        style="@style/Theme.TitleTextView"
         android:id="@+id/title"
+        android:text="@string/type_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/type_text"
-        android:textColor="@color/white"
+        android:paddingTop="20dp"
+        android:paddingBottom="10dp"
         android:gravity="center"
         android:textSize="36sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp">
 
         <Button
+            style="@style/Theme.Button"
             android:id="@+id/viewRaw"
+            android:text="@string/view_raw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/view_raw"
             android:layout_weight="1"/>
 
         <Button
+            style="@style/Theme.Button"
             android:id="@+id/save"
+            android:text="@string/save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
-            android:text="@string/save"
             android:layout_weight="1"/>
     </LinearLayout>
 

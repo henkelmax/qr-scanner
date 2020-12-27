@@ -73,7 +73,7 @@ public class EmailElement extends ScanElement {
 
         String query = matcher.group(2);
 
-        UrlQuerySanitizer urlQuery = new UrlQuerySanitizer(query);
+        UrlQuerySanitizer urlQuery = new UrlQuerySanitizer(query == null ? "" : query);
 
         String body = urlQuery.getValue("body");
         String subject = urlQuery.getValue("subject");

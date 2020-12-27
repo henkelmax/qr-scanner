@@ -16,25 +16,27 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/tel"
-                android:text=""
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:autoLink="phone"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:autoLink="phone"/>
 
-            <Button
-                android:id="@+id/call"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/open_call" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    style="@style/Theme.Button"
+                    android:id="@+id/call"
+                    android:text="@string/open_call"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

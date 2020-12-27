@@ -16,119 +16,83 @@
             android:orientation="vertical">
 
             <TextView
+                style="@style/Theme.TitleTextView"
                 android:text="@string/title_geo_lat"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/lat"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.TitleTextView"
                 android:text="@string/title_geo_lng"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/lng"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
             <TextView
-                android:text="@string/title_geo_altitude"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleAltitude"
+                android:text="@string/title_geo_altitude"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/altitude"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
             <TextView
-                android:text="@string/title_geo_zoom"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleZoom"
+                android:text="@string/title_geo_zoom"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/zoom"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
             <TextView
-                android:text="@string/title_geo_description"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleDescription"
+                android:text="@string/title_geo_description"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/description"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/openMap"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/open_geo" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    style="@style/Theme.Button"
+                    android:id="@+id/openMap"
+                    android:text="@string/open_geo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

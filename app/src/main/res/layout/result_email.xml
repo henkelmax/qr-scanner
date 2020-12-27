@@ -16,122 +16,86 @@
             android:orientation="vertical">
 
             <TextView
-                android:text="@string/title_emails"
+                style="@style/Theme.TitleTextView"
+                android:text="@string/title_recipients"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/emails"
-                android:text=""
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:autoLink="email"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:autoLink="email"/>
 
             <TextView
-                android:text="@string/title_email_cc"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleCc"
+                android:text="@string/title_email_cc"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/cc"
-                android:text=""
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:autoLink="email"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:autoLink="email"/>
 
             <TextView
-                android:text="@string/title_email_bcc"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleBcc"
+                android:text="@string/title_email_bcc"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/bcc"
-                android:text=""
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:autoLink="email"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:autoLink="email"/>
 
             <TextView
-                android:text="@string/title_email_subject"
+                style="@style/Theme.TitleTextView"
                 android:id="@+id/titleSubject"
+                android:text="@string/title_email_subject"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/subject"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.TitleTextView"
                 android:text="@string/title_email_body"
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textSize="24sp"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_width="match_parent"/>
 
             <TextView
+                style="@style/Theme.ValueTextView"
                 android:id="@+id/body"
-                android:text=""
                 android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:textColorLink="@color/white"
-                android:textSize="24sp"
-                android:layout_margin="10dp"
-                android:padding="10dp"
-                android:textColor="@color/white"
-                android:background="@color/primary"
-                android:textIsSelectable="true"/>
+                android:layout_width="match_parent"/>
 
-            <Button
-                android:id="@+id/sendEmail"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="10dp"
-                android:text="@string/open_email" />
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp">
+
+                <Button
+                    style="@style/Theme.Button"
+                    android:id="@+id/sendEmail"
+                    android:text="@string/open_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
