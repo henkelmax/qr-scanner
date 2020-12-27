@@ -35,5 +35,6 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 
 ## Credits
 
+- [code scanner](https://github.com/yuriy-budiyev/code-scanner)
 - [ez-vcard](https://github.com/mangstadt/ez-vcard)
 - [QrCardParsing](https://github.com/RurioLuca/QrCardParsing)
