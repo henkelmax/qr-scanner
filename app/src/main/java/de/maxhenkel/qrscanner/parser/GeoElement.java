@@ -3,7 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.UrlQuerySanitizer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,10 +12,11 @@ import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
+import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class GeoElement extends ScanElement {
 
-    public static final Pattern GEO = Pattern.compile("^geo:([-+\\d.]+),([-+\\d.]+)(?:,([-+\\d.]+))?(\\?(?:[\\s\\S]+))?$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern GEO = Pattern.compile("^geo:([-+\\d.]+),([-+\\d.]+)(?:,([-+\\d.]+))?(?:\\?([\\s\\S]+))?$", Pattern.CASE_INSENSITIVE);
     public static final Pattern MAPS_QUERY = Pattern.compile("^([-+\\d.]+),([-+\\d.]+)(?:\\((.+)\\))?$", Pattern.CASE_INSENSITIVE);
 
     private double lat, lng, altitude;
@@ -49,23 +49,14 @@ public class GeoElement extends ScanElement {
         } catch (Exception e) {
         }
 
-        UrlQuerySanitizer url = new UrlQuerySanitizer();
+        Query query = Query.parse(matcher.group(4));
 
-        String q = matcher.group(4);
-        if (q != null) {
-            url = new UrlQuerySanitizer(q);
-        }
-
-        int zoom = 0;
-        try {
-            zoom = Integer.parseInt(url.getValue("z"));
-        } catch (Exception e) {
-        }
+        int zoom = query.getInt("z").orElse(0);
 
         String desc = "";
-        String query = url.getValue("q"); //TODO replace +
-        if (query != null) {
-            Matcher m = MAPS_QUERY.matcher(query);
+        String q = query.getValue("q");
+        if (q != null) {
+            Matcher m = MAPS_QUERY.matcher(q);
             if (m.matches()) {
                 try {
                     lat = Double.parseDouble(m.group(1));
@@ -76,6 +67,8 @@ public class GeoElement extends ScanElement {
                 if (d != null) {
                     desc = d;
                 }
+            } else {
+                desc = q;
             }
         }
 

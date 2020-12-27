@@ -3,7 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.UrlQuerySanitizer;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,11 +14,12 @@ import java.util.stream.Collectors;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
+import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class SMSElement extends ScanElement {
 
     public static final Pattern SMSTO = Pattern.compile("^(?:smsto|mmsto):([^:]+)(?::([\\s\\S]*))?$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-    public static final Pattern SMS = Pattern.compile("^(?:sms|mms):([^?]+)(\\?.*)?$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern SMS = Pattern.compile("^(?:sms|mms):([^?]+)(?:\\?(.*))?$", Pattern.CASE_INSENSITIVE);
 
     private String[] numbers;
     private String body;
@@ -57,14 +57,8 @@ public class SMSElement extends ScanElement {
     public static SMSElement sms(ScanResult result, Matcher matcher) {
         String number = matcher.group(1);
         String[] numbers = number.split(",");
-        String query = matcher.group(2);
-
-        String body = "";
-        if (query != null) {
-            body = new UrlQuerySanitizer(query).getValue("body");
-        }
-
-        return new SMSElement(result, numbers, body, result.getText());
+        Query query = Query.parse(matcher.group(2));
+        return new SMSElement(result, numbers, query.get("body").orElse(""), result.getText());
     }
 
     public String[] getNumbers() {

@@ -3,7 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.UrlQuerySanitizer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,11 +16,12 @@ import java.util.stream.Collectors;
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
 import de.maxhenkel.qrscanner.parser.matmsg.Email;
+import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class EmailElement extends ScanElement {
 
     public static final Pattern EMAIL = Pattern.compile("^((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)$");
-    public static final Pattern MAILTO = Pattern.compile("^mailto:([^?]+)(\\?.+)?$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern MAILTO = Pattern.compile("^mailto:([^?]+)(?:\\?(.+))?$", Pattern.CASE_INSENSITIVE);
 
     private String[] emails;
     private String[] cc;
@@ -71,26 +71,14 @@ public class EmailElement extends ScanElement {
         String email = matcher.group(1);
         String[] emails = email.split(",");
 
-        String query = matcher.group(2);
+        Query query = Query.parse(matcher.group(2));
 
-        UrlQuerySanitizer urlQuery = new UrlQuerySanitizer(query == null ? "" : query);
+        String body = query.get("body").orElse("");
+        String subject = query.get("subject").orElse("");
+        String cc = query.get("cc").orElse("");
+        String bcc = query.get("bcc").orElse("");
 
-        String body = urlQuery.getValue("body");
-        String subject = urlQuery.getValue("subject");
-        String cc = urlQuery.getValue("cc");
-        String bcc = urlQuery.getValue("bcc");
-
-        String[] ccs = new String[0];
-        if (cc != null) {
-            ccs = cc.split(",");
-        }
-
-        String[] bccs = new String[0];
-        if (bcc != null) {
-            bccs = bcc.split(",");
-        }
-
-        return new EmailElement(result, emails, ccs, bccs, subject == null ? "" : subject, body == null ? "" : body, result.getText());
+        return new EmailElement(result, emails, cc.split(","), bcc.split(","), subject, body, result.getText());
     }
 
     public String[] getEmails() {

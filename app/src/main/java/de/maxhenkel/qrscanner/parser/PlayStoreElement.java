@@ -3,7 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.UrlQuerySanitizer;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -12,10 +11,11 @@ import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
+import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class PlayStoreElement extends ScanElement {
 
-    public static final Pattern PLAY_STORE = Pattern.compile("^market://([^?]+)(\\?.+)?$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern PLAY_STORE = Pattern.compile("^market://([^?]+)(?:\\?(.+))?$", Pattern.CASE_INSENSITIVE);
 
     private String packageID;
 
@@ -25,23 +25,8 @@ public class PlayStoreElement extends ScanElement {
     }
 
     public static PlayStoreElement market(ScanResult result, Matcher matcher) {
-        String query = matcher.group(2);
-
-        String packageID = "";
-
-        if (query != null) {
-            try {
-                UrlQuerySanitizer url = new UrlQuerySanitizer(query);
-
-                String id = url.getValue("id");
-                if (id != null) {
-                    packageID = id;
-                }
-            } catch (Exception e) {
-            }
-        }
-
-        return new PlayStoreElement(result, packageID);
+        Query query = Query.parse(matcher.group(2));
+        return new PlayStoreElement(result, query.get("id").orElse(""));
     }
 
     @Override
