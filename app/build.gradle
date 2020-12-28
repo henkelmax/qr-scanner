@@ -29,6 +29,14 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def flavor = variant.name
+            def versionName = variant.versionName
+            outputFileName = "qrscanner_${flavor}_${versionName}.apk"
+        }
+    }
 }
 
 dependencies {
