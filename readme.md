@@ -8,6 +8,7 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - Easily open related apps
 - View QR code contents as plain text
 - Save QR scan results as file
+- A history of the last 64 scans
 
 ## Supported Formats
 
