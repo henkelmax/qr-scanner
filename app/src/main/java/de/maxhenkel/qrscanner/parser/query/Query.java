@@ -1,14 +1,21 @@
 package de.maxhenkel.qrscanner.parser.query;
 
+import android.text.TextUtils;
+
 import androidx.annotation.Nullable;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
+import org.apache.http.message.BasicNameValuePair;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class Query {
 
@@ -18,9 +25,16 @@ public class Query {
         this.parameters = parameters;
     }
 
+    public Query() {
+        this(new ArrayList<>());
+    }
+
     public static Query parse(@Nullable String str) {
         if (str == null) {
             return new Query(Collections.emptyList());
+        }
+        if (str.startsWith("?")) {
+            str = str.substring(1);
         }
         return new Query(URLEncodedUtils.parse(str, StandardCharsets.UTF_8));
     }
@@ -61,6 +75,53 @@ public class Query {
         } catch (Exception e) {
         }
         return i;
+    }
+
+    /**
+     * Adds the query parameter
+     * <p>
+     * If one parameter is null it won't get added
+     *
+     * @param key   the key
+     * @param value the value
+     */
+    public void add(String key, String value) {
+        if (key != null && value != null) {
+            parameters.add(new BasicNameValuePair(key, value));
+        }
+    }
+
+    /**
+     * Adds the query parameter
+     * <p>
+     * If one parameter is null it won't get added
+     *
+     * @param key   the key
+     * @param value the value
+     */
+    public void add(String key, int value) {
+        add(key, String.valueOf(value));
+    }
+
+    /**
+     * Builds a query string including the '?'
+     *
+     * @return the encoded query string
+     */
+    public String build() {
+        return "?" + parameters.stream().filter(p -> !p.getName().trim().isEmpty()).map(p -> join("=", encode(p.getName()), encode(p.getValue()))).collect(Collectors.joining("&"));
+    }
+
+    private String encode(String str) {
+        try {
+            return URLEncoder.encode(str, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+
+    private String join(String delimiter, String... elements) {
+        return TextUtils.join(delimiter, elements);
     }
 
 }

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,22 +43,12 @@ public class EmailElement extends ScanElement {
         StringBuilder sb = new StringBuilder();
         sb.append("mailto:");
         sb.append(email.getTo());
-        sb.append("?"); //TODO query string builder
-        if (email.getSubject() != null) {
-            try {
-                sb.append("subject=");
-                sb.append(URLEncoder.encode(email.getSubject(), "utf-8"));
-            } catch (Exception e) {
-            }
-        }
-        if (email.getBody() != null) {
-            try {
-                sb.append("&body=");
-                sb.append(URLEncoder.encode(email.getBody(), "utf-8"));
-            } catch (Exception e) {
-            }
-        }
 
+        Query query = new Query();
+        query.add("subject", email.getSubject());
+        query.add("body", email.getBody());
+
+        sb.append(query.build());
         return new EmailElement(result, new String[]{email.getTo()}, new String[0], new String[0], email.getSubject() == null ? "" : email.getSubject(), email.getBody() == null ? "" : email.getBody(), sb.toString());
     }
 
