@@ -1,76 +1,113 @@
 package de.maxhenkel.qrscanner;
 
-import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 
-import com.budiyev.android.codescanner.CodeScanner;
-import com.budiyev.android.codescanner.CodeScannerView;
-import com.budiyev.android.codescanner.DecodeCallback;
-import com.google.zxing.Result;
+import com.journeyapps.barcodescanner.CaptureManager;
+import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.journeyapps.barcodescanner.camera.CameraSettings;
 
 import de.maxhenkel.qrscanner.parser.ScanResult;
 
-public class MainActivity extends Activity implements DecodeCallback {
+public class MainActivity extends Activity implements DecoratedBarcodeView.TorchListener {
 
-    private CodeScannerView scannerView;
-    private CodeScanner mCodeScanner;
+    private DecoratedBarcodeView scannerView;
+    private CaptureManager captureManager;
+    private ImageButton flash;
+    private ImageButton history;
+    private boolean torch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        scannerView = findViewById(R.id.scanner_view);
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.CAMERA}, 0);
-        } else {
-            initScanner();
+        scannerView = findViewById(R.id.scanner);
+        flash = findViewById(R.id.flash);
+        history = findViewById(R.id.history);
+        scannerView.decodeContinuous(result -> {
+            Intent i = new Intent(this, ScanResultActivity.class);
+            i.putExtra("scanResult", new ScanResult(result.getRawBytes(), result.getText()));
+            startActivity(i);
+        });
+        scannerView.setTorchListener(this);
+
+        CameraSettings settings = new CameraSettings();
+        settings.setFocusMode(CameraSettings.FocusMode.CONTINUOUS);
+        scannerView.setCameraSettings(settings);
+
+        if (!getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            flash.setVisibility(View.GONE);
         }
-    }
 
-    private void initScanner() {
-        mCodeScanner = new CodeScanner(this, scannerView);
-        mCodeScanner.setDecodeCallback(this);
-        scannerView.setOnClickListener(view -> mCodeScanner.startPreview());
-    }
+        flash.setOnClickListener(v -> {
+            if (torch) {
+                scannerView.setTorchOff();
+            } else {
+                scannerView.setTorchOn();
+            }
+        });
 
-    @Override
-    public void onDecoded(@NonNull Result result) {
-        Intent i = new Intent(this, ScanResultActivity.class);
-        i.putExtra("scanResult", new ScanResult(result));
-        startActivity(i);
+        history.setOnClickListener(v -> {
+            startActivity(new Intent(this, HistoryActivity.class));
+        });
+        history.setVisibility(View.GONE);
+
+        captureManager = new CaptureManager(this, scannerView);
+        captureManager.initializeFromIntent(getIntent(), savedInstanceState);
+        captureManager.setShowMissingCameraPermissionDialog(false);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mCodeScanner != null) {
-            mCodeScanner.startPreview();
-        }
+        captureManager.onResume();
     }
 
     @Override
     protected void onPause() {
-        if (mCodeScanner != null) {
-            mCodeScanner.releaseResources();
-        }
         super.onPause();
+        captureManager.onPause();
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        if (requestCode == 0) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                initScanner();
-            }
-        }
-
+    protected void onDestroy() {
+        super.onDestroy();
+        captureManager.onDestroy();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        captureManager.onSaveInstanceState(bundle);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return scannerView.onKeyDown(keyCode, event) || super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        captureManager.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
+    public void onTorchOn() {
+        torch = true;
+        flash.setImageResource(R.drawable.flash);
+    }
+
+    @Override
+    public void onTorchOff() {
+        torch = false;
+        flash.setImageResource(R.drawable.flash_off);
+    }
 }

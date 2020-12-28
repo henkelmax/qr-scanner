@@ -3,7 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.google.zxing.Result;
+import androidx.annotation.Nullable;
 
 public class ScanResult implements Parcelable {
 
@@ -22,13 +22,9 @@ public class ScanResult implements Parcelable {
     private final byte[] data;
     private final String text;
 
-    public ScanResult(byte[] data, String text) {
-        this.data = data;
+    public ScanResult(@Nullable byte[] data, String text) {
+        this.data = data == null ? new byte[0] : data;
         this.text = text;
-    }
-
-    public ScanResult(Result result) {
-        this(result.getRawBytes() == null ? new byte[0] : result.getRawBytes(), result.getText());
     }
 
     public ScanElement parse() {
