@@ -1,6 +1,8 @@
-# QR Code Scanner
+# QR Code Scanner ![GitHub release (latest by date)](https://img.shields.io/github/v/release/henkelmax/qr-scanner) ![GitHub issues](https://img.shields.io/github/issues-raw/henkelmax/qr-scanner) ![GitHub All Releases](https://img.shields.io/github/downloads/henkelmax/qr-scanner/total)
 
 A simple QR code scanner aimed at providing the best compatibility of all formats.
+
+[Downloads](https://github.com/henkelmax/qr-scanner/releases)
 
 ## Features
 
