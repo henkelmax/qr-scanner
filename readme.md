@@ -42,8 +42,26 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - SIP
   - [RFC 3261](https://tools.ietf.org/html/rfc3261#page-148) (`sip:`, `sips:`)
 
+## Supported Barcode Types
+
+- [QR Code](https://en.wikipedia.org/wiki/QR_code)
+- [Aztec Code](https://en.wikipedia.org/wiki/Aztec_Code)
+- [Data Matrix](https://en.wikipedia.org/wiki/Data_Matrix)
+- [PDF417](https://en.wikipedia.org/wiki/PDF417)
+- [Codabar](https://en.wikipedia.org/wiki/Codabar)
+- [Code 128](https://en.wikipedia.org/wiki/Code_128)
+- [Code 39](https://en.wikipedia.org/wiki/Code_39)
+- [Code 93](https://en.wikipedia.org/wiki/Code_93)
+- [EAN-13](https://en.wikipedia.org/wiki/International_Article_Number)
+- [EAN-8](https://en.wikipedia.org/wiki/EAN-8)
+- [Interleaved Two of Five](https://en.wikipedia.org/wiki/Interleaved_2_of_5)
+- [GS1 DataBar (RSS-14)](https://en.wikipedia.org/wiki/GS1_DataBar)
+- [GS1 DataBar Expanded (RSS Expanded)](https://en.wikipedia.org/wiki/GS1_DataBar)
+- [UPC-A](https://en.wikipedia.org/wiki/Universal_Product_Code)
+- [UPC-E](https://en.wikipedia.org/wiki/Universal_Product_Code)
+
 ## Credits
 
-- [code scanner](https://github.com/yuriy-budiyev/code-scanner)
+- [ZXing Android Embedded](https://github.com/journeyapps/zxing-android-embedded)
 - [ez-vcard](https://github.com/mangstadt/ez-vcard)
 - [QrCardParsing](https://github.com/RurioLuca/QrCardParsing)
