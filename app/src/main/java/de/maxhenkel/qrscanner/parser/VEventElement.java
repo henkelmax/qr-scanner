@@ -9,18 +9,16 @@ import android.widget.TextView;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
 import it.auron.library.vevent.VEvent;
-import it.auron.library.vevent.VEventCostant;
 
 public class VEventElement extends ScanElement {
 
     public static final Pattern VEVENT = Pattern.compile("^(\\s*BEGIN:VEVENT\\s*([\\S\\s]*)\\s*END:VEVENT\\s*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-    public static final SimpleDateFormat VEVENT_FORMAT = new SimpleDateFormat(VEventCostant.DATE_FORMAT, Locale.US);
+    public static final SimpleDateFormat VEVENT_FORMAT = new SimpleDateFormat("yyyyMMdd'T'hhmmss'Z'");
 
     private VEvent event;
 
@@ -88,10 +86,8 @@ public class VEventElement extends ScanElement {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(activity.getString(R.string.date_format));
         if (event.getDtStart() != null) {
-            Calendar start = Calendar.getInstance();
             try {
-                start.setTime(VEVENT_FORMAT.parse(event.getDtStart()));
-                sb.append(simpleDateFormat.format(start.getTime()));
+                sb.append(simpleDateFormat.format(VEVENT_FORMAT.parse(event.getDtStart())));
                 if (event.getDtEnd() != null) {
                     sb.append(" - ");
                 }
@@ -99,10 +95,8 @@ public class VEventElement extends ScanElement {
             }
         }
         if (event.getDtEnd() != null) {
-            Calendar end = Calendar.getInstance();
             try {
-                end.setTime(VEVENT_FORMAT.parse(event.getDtEnd()));
-                sb.append(simpleDateFormat.format(end.getTime()));
+                sb.append(simpleDateFormat.format(VEVENT_FORMAT.parse(event.getDtEnd())));
             } catch (Exception e) {
             }
         }
