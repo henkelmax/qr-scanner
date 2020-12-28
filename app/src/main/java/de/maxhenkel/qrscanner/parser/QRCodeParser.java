@@ -54,8 +54,8 @@ public class QRCodeParser {
         if ((m = SMSElement.SMS.matcher(result.getText())).matches()) {
             return SMSElement.sms(result, m);
         }
-        if ((m = SMSElement.SMSTO.matcher(result.getText())).matches()) {
-            return SMSElement.smsTo(result, m);
+        if ((m = SMSElement.SMS_RAW.matcher(result.getText())).matches()) {
+            return SMSElement.smsRaw(result, m);
         }
         if ((m = GeoElement.GEO.matcher(result.getText())).matches()) {
             return GeoElement.geo(result, m);
