@@ -1,9 +1,11 @@
 package de.maxhenkel.qrscanner;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageButton;
@@ -29,12 +31,14 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         scannerView = findViewById(R.id.scanner);
         flash = findViewById(R.id.flash);
         history = findViewById(R.id.history);
         scannerView.decodeContinuous(result -> {
+            vibrator.vibrate(50L);
             Intent i = new Intent(this, ScanResultActivity.class);
-            i.putExtra("scanResult", new ScanResult(result.getRawBytes(), result.getText()));
+            i.putExtra("scanResult", new ScanResult(result.getTimestamp(), result.getText()));
             startActivity(i);
         });
         scannerView.setTorchListener(this);
@@ -58,7 +62,6 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         history.setOnClickListener(v -> {
             startActivity(new Intent(this, HistoryActivity.class));
         });
-        history.setVisibility(View.GONE);
 
         captureManager = new CaptureManager(this, scannerView);
         captureManager.initializeFromIntent(getIntent(), savedInstanceState);

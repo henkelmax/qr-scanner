@@ -33,6 +33,11 @@ public class URLElement extends ScanElement {
     }
 
     @Override
+    public String getPreview(Context context) {
+        return url;
+    }
+
+    @Override
     public int getLayout() {
         return R.layout.result_url;
     }

@@ -56,6 +56,8 @@
     <string name="toast_no_activity_found">Could not find any application associated to this type</string>
     <string name="toast_save_success">Successfully saved file</string>
     <string name="toast_save_failed">Failed saving file</string>
+    <string name="toast_load_history_failed">Failed loading history</string>
+    <string name="preview_geo">Latitude: %1$.3f, Longitude: %2$.3f</string>
     <string name="view_raw">View Raw</string>
     <string name="save">Save as File</string>
 </resources>

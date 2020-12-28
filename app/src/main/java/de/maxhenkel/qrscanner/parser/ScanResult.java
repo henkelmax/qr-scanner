@@ -3,15 +3,14 @@ package de.maxhenkel.qrscanner.parser;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.Nullable;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class ScanResult implements Parcelable {
 
     public static final Parcelable.Creator<ScanResult> CREATOR = new Parcelable.Creator<ScanResult>() {
         public ScanResult createFromParcel(Parcel in) {
-            byte[] data = new byte[in.readInt()];
-            in.readByteArray(data);
-            return new ScanResult(data, in.readString());
+            return new ScanResult(in.readLong(), in.readString());
         }
 
         public ScanResult[] newArray(int size) {
@@ -19,24 +18,24 @@ public class ScanResult implements Parcelable {
         }
     };
 
-    private final byte[] data;
-    private final String text;
+    private final long timestamp;
+    private final String data;
 
-    public ScanResult(@Nullable byte[] data, String text) {
-        this.data = data == null ? new byte[0] : data;
-        this.text = text;
+    public ScanResult(long timestamp, String data) {
+        this.timestamp = timestamp;
+        this.data = data;
     }
 
     public ScanElement parse() {
         return QRCodeParser.parse(this);
     }
 
-    public byte[] getData() {
+    public String getData() {
         return data;
     }
 
-    public String getText() {
-        return text;
+    public long getTimestamp() {
+        return timestamp;
     }
 
     @Override
@@ -46,8 +45,18 @@ public class ScanResult implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(data.length);
-        dest.writeByteArray(data);
-        dest.writeString(text);
+        dest.writeLong(timestamp);
+        dest.writeString(data);
+    }
+
+    public JSONObject toJSON() throws JSONException {
+        JSONObject o = new JSONObject();
+        o.put("timestamp", timestamp);
+        o.put("data", data);
+        return o;
+    }
+
+    public static ScanResult fromJSON(JSONObject o) throws JSONException {
+        return new ScanResult(o.getLong("timestamp"), o.getString("data"));
     }
 }

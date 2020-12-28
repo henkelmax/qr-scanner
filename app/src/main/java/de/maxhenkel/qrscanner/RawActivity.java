@@ -25,6 +25,6 @@ public class RawActivity extends Activity {
         }
 
         ScanResult scanResult = intent.getParcelableExtra("scanResult");
-        rawText.setText(scanResult.getText());
+        rawText.setText(scanResult.getData());
     }
 }

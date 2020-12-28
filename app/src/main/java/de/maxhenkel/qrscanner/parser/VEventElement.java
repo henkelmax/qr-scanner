@@ -60,6 +60,11 @@ public class VEventElement extends ScanElement {
     }
 
     @Override
+    public String getPreview(Context context) {
+        return event.getSummary() == null ? getTimeSpan() : event.getSummary();
+    }
+
+    @Override
     public int getLayout() {
         return R.layout.result_event;
     }
@@ -79,25 +84,7 @@ public class VEventElement extends ScanElement {
         return "event.ical";
     }
 
-    @Override
-    public void create(ScanResultActivity activity) {
-        super.create(activity);
-        TextView summary = activity.findViewById(R.id.summary);
-        if (event.getSummary() != null) {
-            summary.setText(event.getSummary());
-        }
-
-        TextView location = activity.findViewById(R.id.location);
-        if (event.getLocation() != null) {
-            location.setText(event.getLocation());
-        }
-
-        TextView url = activity.findViewById(R.id.url);
-        if (event.getUrl() != null) {
-            url.setText(event.getUrl());
-        }
-
-        TextView time = activity.findViewById(R.id.time);
+    public String getTimeSpan() {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(activity.getString(R.string.date_format));
         if (event.getDtStart() != null) {
@@ -119,7 +106,29 @@ public class VEventElement extends ScanElement {
             } catch (Exception e) {
             }
         }
-        time.setText(sb.toString());
+        return sb.toString();
+    }
+
+    @Override
+    public void create(ScanResultActivity activity) {
+        super.create(activity);
+        TextView summary = activity.findViewById(R.id.summary);
+        if (event.getSummary() != null) {
+            summary.setText(event.getSummary());
+        }
+
+        TextView location = activity.findViewById(R.id.location);
+        if (event.getLocation() != null) {
+            location.setText(event.getLocation());
+        }
+
+        TextView url = activity.findViewById(R.id.url);
+        if (event.getUrl() != null) {
+            url.setText(event.getUrl());
+        }
+
+        TextView time = activity.findViewById(R.id.time);
+        time.setText(getTimeSpan());
 
         Button saveEvent = activity.findViewById(R.id.saveEvent);
         saveEvent.setOnClickListener(v -> {

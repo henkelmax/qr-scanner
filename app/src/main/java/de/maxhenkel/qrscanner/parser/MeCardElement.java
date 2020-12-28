@@ -96,6 +96,11 @@ public class MeCardElement extends ScanElement {
     }
 
     @Override
+    public String getPreview(Context context) {
+        return getName();
+    }
+
+    @Override
     public int getLayout() {
         return R.layout.result_contact;
     }

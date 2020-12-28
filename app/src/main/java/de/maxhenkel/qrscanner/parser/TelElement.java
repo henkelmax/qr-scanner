@@ -32,6 +32,11 @@ public class TelElement extends ScanElement {
     }
 
     @Override
+    public String getPreview(Context context) {
+        return number;
+    }
+
+    @Override
     public int getLayout() {
         return R.layout.result_tel;
     }

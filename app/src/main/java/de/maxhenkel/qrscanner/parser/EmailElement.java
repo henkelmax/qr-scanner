@@ -3,6 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -53,12 +54,12 @@ public class EmailElement extends ScanElement {
     }
 
     public static EmailElement email(ScanResult result, Matcher matcher) {
-        return new EmailElement(result, new String[]{result.getText()}, new String[0], new String[0], "", "", "mailto:" + result.getText());
+        return new EmailElement(result, new String[]{result.getData()}, new String[0], new String[0], "", "", "mailto:" + result.getData());
     }
 
     public static EmailElement mailto(ScanResult result, Matcher matcher) {
         String email = matcher.group(1);
-        String[] emails = email.split(",");
+        String[] emails = Arrays.stream(email.split(",")).map(String::trim).toArray(String[]::new);
 
         Query query = Query.parse(matcher.group(2));
 
@@ -67,7 +68,7 @@ public class EmailElement extends ScanElement {
         String cc = query.get("cc").orElse("");
         String bcc = query.get("bcc").orElse("");
 
-        return new EmailElement(result, emails, cc.split(","), bcc.split(","), subject, body, result.getText());
+        return new EmailElement(result, emails, cc.split(","), bcc.split(","), subject, body, result.getData());
     }
 
     public String[] getEmails() {
@@ -97,6 +98,11 @@ public class EmailElement extends ScanElement {
     @Override
     public Intent getIntent(Context context) {
         return new Intent(Intent.ACTION_SENDTO, Uri.parse(mailto));
+    }
+
+    @Override
+    public String getPreview(Context context) {
+        return TextUtils.join(", ", emails);
     }
 
     @Override

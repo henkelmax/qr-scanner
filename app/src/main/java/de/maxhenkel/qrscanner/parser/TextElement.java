@@ -12,7 +12,7 @@ public class TextElement extends ScanElement {
     }
 
     public String getText() {
-        return result.getText();
+        return result.getData();
     }
 
     @Override

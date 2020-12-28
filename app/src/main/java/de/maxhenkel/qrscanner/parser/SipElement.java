@@ -29,7 +29,12 @@ public class SipElement extends ScanElement {
 
     @Override
     public Intent getIntent(Context context) {
-        return new Intent(Intent.ACTION_DIAL, Uri.parse(result.getText()));
+        return new Intent(Intent.ACTION_DIAL, Uri.parse(result.getData()));
+    }
+
+    @Override
+    public String getPreview(Context context) {
+        return address;
     }
 
     @Override

@@ -77,7 +77,12 @@ public class GeoElement extends ScanElement {
 
     @Override
     public Intent getIntent(Context context) {
-        return new Intent(Intent.ACTION_VIEW, Uri.parse(result.getText()));
+        return new Intent(Intent.ACTION_VIEW, Uri.parse(result.getData()));
+    }
+
+    @Override
+    public String getPreview(Context context) {
+        return context.getString(R.string.preview_geo, lat, lng);
     }
 
     @Override

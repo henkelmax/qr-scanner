@@ -104,6 +104,11 @@ public class WifiElement extends ScanElement {
     }
 
     @Override
+    public String getPreview(Context context) {
+        return wifiConfig.getSsid() == null ? "" : wifiConfig.getSsid();
+    }
+
+    @Override
     public int getLayout() {
         return R.layout.result_wifi;
     }

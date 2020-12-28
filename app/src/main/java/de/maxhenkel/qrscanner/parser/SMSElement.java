@@ -3,6 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ public class SMSElement extends ScanElement {
 
     public static SMSElement smsRaw(ScanResult result, Matcher matcher) {
         String number = matcher.group(1);
-        String[] numbers = number.split(",");
+        String[] numbers = Arrays.stream(number.split(",")).map(String::trim).toArray(String[]::new);
 
         Query query = new Query();
         query.add("body", matcher.group(2));
@@ -46,9 +47,9 @@ public class SMSElement extends ScanElement {
 
     public static SMSElement sms(ScanResult result, Matcher matcher) {
         String number = matcher.group(1);
-        String[] numbers = number.split(",");
+        String[] numbers = Arrays.stream(number.split(",")).map(String::trim).toArray(String[]::new);
         Query query = Query.parse(matcher.group(2));
-        return new SMSElement(result, numbers, query.get("body").orElse(""), result.getText());
+        return new SMSElement(result, numbers, query.get("body").orElse(""), result.getData());
     }
 
     public String[] getNumbers() {
@@ -66,6 +67,11 @@ public class SMSElement extends ScanElement {
     @Override
     public Intent getIntent(Context context) {
         return new Intent(Intent.ACTION_SENDTO, Uri.parse(action));
+    }
+
+    @Override
+    public String getPreview(Context context) {
+        return TextUtils.join(", ", numbers);
     }
 
     @Override

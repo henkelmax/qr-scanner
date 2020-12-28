@@ -15,10 +15,14 @@ import de.maxhenkel.qrscanner.ScanResultActivity;
 
 public abstract class ScanElement {
 
+    @Nullable
     protected ScanResultActivity activity;
     protected ScanResult result;
+    @Nullable
     protected Button viewRaw;
+    @Nullable
     protected Button save;
+    @Nullable
     protected TextView title;
 
     public ScanElement(ScanResult result) {
@@ -26,10 +30,6 @@ public abstract class ScanElement {
     }
 
     public String getRawText() {
-        return result.getText();
-    }
-
-    public byte[] getRawBytes() {
         return result.getData();
     }
 
@@ -39,6 +39,10 @@ public abstract class ScanElement {
 
     public int getTitle() {
         return R.string.type_text;
+    }
+
+    public String getPreview(Context context) {
+        return result.getData();
     }
 
     public String getFileName() {
