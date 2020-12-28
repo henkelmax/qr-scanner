@@ -13,7 +13,7 @@ import de.maxhenkel.qrscanner.ScanResultActivity;
 
 public class TelElement extends ScanElement {
 
-    public static final Pattern TEL = Pattern.compile("^(tel|voicemail):(\\+?\\d+)$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern TEL = Pattern.compile("^(tel|voicemail):(.+)$", Pattern.CASE_INSENSITIVE);
 
     private String number;
 
