@@ -75,6 +75,9 @@ public class QRCodeParser {
         if ((m = PlayStoreElement.PLAY_STORE.matcher(result.getText())).matches()) {
             return PlayStoreElement.market(result, m);
         }
+        if ((m = CryptoCurrencyElement.CRYPTO.matcher(result.getText())).matches()) {
+            return CryptoCurrencyElement.crypto(result, m);
+        }
 
         return new TextElement(result);
     }

@@ -77,6 +77,19 @@ public class Query {
         return i;
     }
 
+    public Optional<Double> getDouble(String param) {
+        Optional<String> str = get(param);
+        if (!str.isPresent()) {
+            return Optional.empty();
+        }
+        Optional<Double> d = Optional.empty();
+        try {
+            d = Optional.of(Double.parseDouble(str.get()));
+        } catch (Exception e) {
+        }
+        return d;
+    }
+
     /**
      * Adds the query parameter
      * <p>

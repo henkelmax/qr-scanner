@@ -32,6 +32,12 @@ A simple QR code scanner aimed at providing the best compatibility of all format
   - [ZXing](https://github.com/zxing/zxing/wiki/Barcode-Contents#wi-fi-network-config-android-ios-11) (`wifi:`)
 - Google Play Store Apps
   - `market:`
+- Crypto Currencies
+  - Bitcoin [BIP21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki) (`bitcoin:`)
+  - Bitcoin Cash (`bitcoincash:`)
+  - Ethereum (`ethereum:`)
+  - Litecoin (`litecoin:`)
+  - Dash (`dash:`)
 
 ## Credits
 

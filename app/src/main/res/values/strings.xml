@@ -9,6 +9,7 @@
     <string name="open_event">Save Event</string>
     <string name="open_wifi">Save WI-FI Configuration</string>
     <string name="open_store">Open Play Store</string>
+    <string name="open_crypto">Open</string>
     <string name="title_numbers">Number(s)</string>
     <string name="title_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
@@ -31,6 +32,11 @@
     <string name="title_wifi_password">Password</string>
     <string name="title_wifi_other">Other Configuration</string>
     <string name="title_playstore_package">Play Store Package ID</string>
+    <string name="title_crypto_currency">Currency</string>
+    <string name="title_crypto_address">Address</string>
+    <string name="title_crypto_amount">Amount</string>
+    <string name="title_crypto_label">Label</string>
+    <string name="title_crypto_message">Message</string>
     <string name="type_text">Text</string>
     <string name="type_url">URL</string>
     <string name="type_tel">Telephone Number</string>
@@ -41,6 +47,7 @@
     <string name="type_event">Event</string>
     <string name="type_wifi">Wi-Fi Network Config</string>
     <string name="type_store">Play Store App</string>
+    <string name="type_crypto_currency">Crypto Currency</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
     <string name="toast_wifi_config_failed">Failed applying config</string>
