@@ -17,7 +17,7 @@
 
             <TextView
                 style="@style/Theme.ValueTextView"
-                android:id="@+id/tel"
+                android:id="@+id/address"
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
                 android:autoLink="phone"/>
@@ -32,7 +32,7 @@
                 <Button
                     style="@style/Theme.Button"
                     android:id="@+id/call"
-                    android:text="@string/open_tel"
+                    android:text="@string/open_sip"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 

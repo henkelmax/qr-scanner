@@ -33,11 +33,14 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - Google Play Store Apps
   - `market:`
 - Crypto Currencies
-  - Bitcoin [BIP21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki) (`bitcoin:`)
+  - [BIP21](https://github.com/bitcoin/bips/blob/master/bip-0021.mediawiki)
+  - Bitcoin (`bitcoin:`)
   - Bitcoin Cash (`bitcoincash:`)
   - Ethereum (`ethereum:`)
   - Litecoin (`litecoin:`)
   - Dash (`dash:`)
+- SIP
+  - [RFC 3261](https://tools.ietf.org/html/rfc3261#page-148) (`sip:`, `sips:`)
 
 ## Credits
 

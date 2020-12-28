@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">QR Scanner</string>
     <string name="open_link">Open</string>
-    <string name="open_call">Call</string>
+    <string name="open_tel">Call</string>
     <string name="open_sms">Send SMS</string>
     <string name="open_email">Send E-Mail</string>
     <string name="open_contact">Save Contact</string>
@@ -10,6 +10,7 @@
     <string name="open_wifi">Save WI-FI Configuration</string>
     <string name="open_store">Open Play Store</string>
     <string name="open_crypto">Open</string>
+    <string name="open_sip">Call</string>
     <string name="title_numbers">Number(s)</string>
     <string name="title_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
@@ -48,6 +49,7 @@
     <string name="type_wifi">Wi-Fi Network Config</string>
     <string name="type_store">Play Store App</string>
     <string name="type_crypto_currency">Crypto Currency</string>
+    <string name="type_sip">SIP Address</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
     <string name="toast_wifi_config_failed">Failed applying config</string>

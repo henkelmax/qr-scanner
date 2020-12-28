@@ -78,6 +78,9 @@ public class QRCodeParser {
         if ((m = CryptoCurrencyElement.CRYPTO.matcher(result.getText())).matches()) {
             return CryptoCurrencyElement.crypto(result, m);
         }
+        if ((m = SipElement.SIP.matcher(result.getText())).matches()) {
+            return SipElement.sip(result, m);
+        }
 
         return new TextElement(result);
     }
