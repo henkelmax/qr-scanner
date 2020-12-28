@@ -2,7 +2,10 @@
 
 A simple QR code scanner aimed at providing the best compatibility of all formats.
 
-[Downloads](https://github.com/henkelmax/qr-scanner/releases)
+## Useful Links
+
+- [Downloads](https://github.com/henkelmax/qr-scanner/releases)
+- [Example QR Codes](examples/)
 
 ## Features
 
