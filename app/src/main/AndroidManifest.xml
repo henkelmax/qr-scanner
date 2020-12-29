@@ -20,7 +20,9 @@
         <activity android:name=".HistoryActivity"/>
         <activity android:name=".RawActivity" />
         <activity android:name=".ScanResultActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
