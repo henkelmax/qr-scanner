@@ -51,6 +51,7 @@
     <string name="type_crypto_currency">Crypto Currency</string>
     <string name="type_sip">SIP Address</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
+    <string name="birthday_date_format">yyyy.MM.dd</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
     <string name="toast_wifi_config_failed">Failed applying config</string>
     <string name="toast_no_activity_found">Could not find any application associated to this type</string>

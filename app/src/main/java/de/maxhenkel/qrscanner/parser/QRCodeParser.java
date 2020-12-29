@@ -4,12 +4,12 @@ import java.util.regex.Matcher;
 
 import de.maxhenkel.qrscanner.parser.email.Email;
 import de.maxhenkel.qrscanner.parser.email.MatMsgParser;
+import de.maxhenkel.qrscanner.parser.mecard.MeCard;
+import de.maxhenkel.qrscanner.parser.mecard.MeCardParser;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfig;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfigParser;
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
-import it.auron.library.mecard.MeCard;
-import it.auron.library.mecard.MeCardParser;
 import it.auron.library.vevent.VEvent;
 import it.auron.library.vevent.VEventParser;
 

@@ -8,12 +8,15 @@ import android.text.Html;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
-import it.auron.library.mecard.MeCard;
+import de.maxhenkel.qrscanner.parser.mecard.MeCard;
 
 public class MeCardElement extends ScanElement {
 
@@ -28,15 +31,20 @@ public class MeCardElement extends ScanElement {
 
     public String getName() {
         StringBuilder sb = new StringBuilder();
-        if (card.getName() != null) {
-            sb.append(card.getName());
+
+        sb.append(card.getFirstName().orElse(""));
+        if (card.getFirstName().isPresent()) {
             sb.append(" ");
         }
-        if (card.getSurname() != null) {
-            sb.append(card.getSurname());
+        sb.append(card.getLastName().orElse(""));
+
+        String name = sb.toString().trim();
+
+        if (name.isEmpty()) {
+            return card.getNickname().orElse("");
         }
 
-        return sb.toString().trim();
+        return name;
     }
 
     @Override
@@ -46,47 +54,47 @@ public class MeCardElement extends ScanElement {
 
         insertIntent.putExtra(ContactsContract.Intents.Insert.NAME, getName());
 
-        if (card.getOrg() != null) {
-            insertIntent.putExtra(ContactsContract.Intents.Insert.COMPANY, card.getOrg());
+        if (card.getOrg().isPresent()) {
+            insertIntent.putExtra(ContactsContract.Intents.Insert.COMPANY, card.getOrg().get());
         }
 
-        if (card.getNote() != null) {
-            insertIntent.putExtra(ContactsContract.Intents.Insert.NOTES, card.getNote());
+        if (card.getNote().isPresent()) {
+            insertIntent.putExtra(ContactsContract.Intents.Insert.NOTES, card.getNote().get());
         }
 
-        if (card.getAddress() != null) {
-            insertIntent.putExtra(ContactsContract.Intents.Insert.POSTAL, card.getAddress());
+        if (card.getAddress().isPresent()) {
+            insertIntent.putExtra(ContactsContract.Intents.Insert.POSTAL, card.getAddress().get());
         }
 
         ArrayList<ContentValues> contactData = new ArrayList<>();
 
-        for (String tel : card.getTelephones()) {
+        for (String tel : card.getTelephone()) {
             ContentValues phoneRow = new ContentValues();
             phoneRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE);
             phoneRow.put(ContactsContract.CommonDataKinds.Phone.NUMBER, tel);
             contactData.add(phoneRow);
         }
 
-        if (card.getEmail() != null) {
+        if (card.getEmail().isPresent()) {
             ContentValues emailRow = new ContentValues();
             emailRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE);
-            emailRow.put(ContactsContract.CommonDataKinds.Email.ADDRESS, card.getEmail());
+            emailRow.put(ContactsContract.CommonDataKinds.Email.ADDRESS, card.getEmail().get());
             contactData.add(emailRow);
         }
 
-        if (card.getUrl() != null) {
+        if (card.getUrl().isPresent()) {
             ContentValues urlRow = new ContentValues();
             urlRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE);
-            urlRow.put(ContactsContract.CommonDataKinds.Website.URL, card.getUrl());
+            urlRow.put(ContactsContract.CommonDataKinds.Website.URL, card.getUrl().get());
             contactData.add(urlRow);
         }
 
 
-        if (card.getDate() != null) {
+        if (card.getBirthday().isPresent()) {
             ContentValues birthdayRow = new ContentValues();
             birthdayRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
             birthdayRow.put(ContactsContract.Data.CONTENT_TYPE, ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
-            birthdayRow.put(ContactsContract.CommonDataKinds.Event.START_DATE, card.getDate());
+            birthdayRow.put(ContactsContract.CommonDataKinds.Event.START_DATE, card.getBirthday().get());
             contactData.add(birthdayRow);
         }
 
@@ -117,41 +125,45 @@ public class MeCardElement extends ScanElement {
         StringBuilder sb = new StringBuilder();
 
         sb.append(getName());
-        sb.append("<br/><br/>");
+        sb.append("<br/>");
 
-        if (card.getOrg() != null) {
-            sb.append(card.getOrg());
+        Optional<Date> birthdayDate = card.getBirthdayDate();
+        if (birthdayDate.isPresent()) {
+            SimpleDateFormat sdf = new SimpleDateFormat(activity.getString(R.string.birthday_date_format));
+            sb.append("*");
+            sb.append(sdf.format(birthdayDate.get()));
+            sb.append("<br/>");
+        }
+        sb.append("<br/>");
+
+        if (card.getOrg().isPresent()) {
+            sb.append(card.getOrg().get());
             sb.append("<br/><br/>");
         }
 
-        for (String tel : card.getTelephones()) {
+        for (String tel : card.getTelephone()) {
             sb.append(tel);
             sb.append("<br/>");
         }
 
-        if (card.getEmail() != null) {
-            sb.append(card.getEmail());
+        if (card.getEmail().isPresent()) {
+            sb.append(card.getEmail().get());
             sb.append("<br/>");
         }
 
-        if (card.getAddress() != null) {
-            sb.append(card.getAddress());
+        if (card.getAddress().isPresent()) {
+            sb.append(card.getAddress().get());
             sb.append("<br/>");
         }
 
-        if (card.getUrl() != null) {
-            sb.append(card.getUrl());
+        if (card.getUrl().isPresent()) {
+            sb.append(card.getUrl().get());
             sb.append("<br/>");
         }
 
-        if (card.getDate() != null) {
-            sb.append(card.getDate());
+        if (card.getNote().isPresent()) {
             sb.append("<br/>");
-        }
-
-        if (card.getNote() != null) {
-            sb.append("<br/>");
-            sb.append(card.getNote());
+            sb.append(card.getNote().get());
             sb.append("<br/>");
         }
 

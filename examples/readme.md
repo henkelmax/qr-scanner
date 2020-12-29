@@ -57,7 +57,7 @@ END:VCARD
 
 ![MeCard](mecard.png)
 
-`MECARD:N:Doe,John;ADR:123 Main Street, New York, NY 10030;TEL:1235554567;EMAIL:john.doe@example.com;;`
+`MECARD:N:Doe,John;NICKNAME:Johnny;ORG:John Doe Co.;ADR:123 Main Street, New York, NY 10030;BDAY:19990101;TEL:1235554567;TEL:7655554321;EMAIL:john.doe@example.com;URL:https://johndoe.example.com/;NOTE:Hello World!;;`
 
 ## SMS
 
