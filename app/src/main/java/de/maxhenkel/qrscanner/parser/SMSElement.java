@@ -7,10 +7,8 @@ import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
@@ -34,7 +32,7 @@ public class SMSElement extends ScanElement {
 
     public static SMSElement smsRaw(ScanResult result, Matcher matcher) {
         String number = matcher.group(1);
-        String[] numbers = Arrays.stream(number.split(",")).map(String::trim).toArray(String[]::new);
+        String[] numbers = Tokenizer.splitTrim(number, ",");
 
         Query query = new Query();
         query.add("body", matcher.group(2));
@@ -47,7 +45,7 @@ public class SMSElement extends ScanElement {
 
     public static SMSElement sms(ScanResult result, Matcher matcher) {
         String number = matcher.group(1);
-        String[] numbers = Arrays.stream(number.split(",")).map(String::trim).toArray(String[]::new);
+        String[] numbers = Tokenizer.splitTrim(number, ",");
         Query query = Query.parse(matcher.group(2));
         return new SMSElement(result, numbers, query.get("body").orElse(""), result.getData());
     }
@@ -88,7 +86,7 @@ public class SMSElement extends ScanElement {
     public void create(ScanResultActivity activity) {
         super.create(activity);
         TextView numbers = activity.findViewById(R.id.numbers);
-        numbers.setText(Arrays.stream(getNumbers()).collect(Collectors.joining(", ")));
+        numbers.setText(TextUtils.join("\n", getNumbers()));
 
         TextView body = activity.findViewById(R.id.body);
         body.setText(getBody());
