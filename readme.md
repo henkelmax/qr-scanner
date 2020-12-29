@@ -23,6 +23,7 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - E-Mails
   - Plain E-Mails
   - [RFC 6068](https://tools.ietf.org/html/rfc6068) (`mailto:`)
+  - MATMSG
 - Telephone Numbers
   - [RFC 3966](https://tools.ietf.org/html/rfc3966) (`tel:`, `voicemail:`)
 - Contact Information

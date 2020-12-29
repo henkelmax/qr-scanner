@@ -20,6 +20,12 @@
 
 `mailto:john.doe@example.com?cc=jane.doe@example.com,john.doe@example.com,&bcc=john.doe@example.com&subject=Hello&body=Hello%20World%21`
 
+### MATMSG
+
+![MATMSG](email_matmsg.png)
+
+`MATMSG:TO:john.doe@example.com;SUB:Hello;BODY:Hello World!;;`
+
 ## Telephone Number
 
 ![Telephone Number](tel.png)
