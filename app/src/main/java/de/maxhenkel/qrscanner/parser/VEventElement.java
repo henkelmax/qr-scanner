@@ -6,19 +6,14 @@ import android.provider.CalendarContract;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
-import it.auron.library.vevent.VEvent;
+import de.maxhenkel.qrscanner.parser.vevent.VEvent;
 
 public class VEventElement extends ScanElement {
-
-    public static final Pattern VEVENT = Pattern.compile("^(\\s*BEGIN:VEVENT\\s*([\\S\\s]*)\\s*END:VEVENT\\s*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-    public static final SimpleDateFormat VEVENT_FORMAT = new SimpleDateFormat("yyyyMMdd'T'hhmmss'Z'");
 
     private VEvent event;
 
@@ -31,35 +26,32 @@ public class VEventElement extends ScanElement {
     public Intent getIntent(Context context) {
         Intent intent = new Intent(Intent.ACTION_INSERT).setData(CalendarContract.Events.CONTENT_URI);
 
-        if (event.getDtStart() != null) {
+        event.getStartDate().ifPresent(date -> {
             Calendar start = Calendar.getInstance();
-            try {
-                start.setTime(VEVENT_FORMAT.parse(event.getDtStart()));
-                intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
-            } catch (ParseException e) {
-            }
-        }
-        if (event.getDtEnd() != null) {
-            Calendar end = Calendar.getInstance();
-            try {
-                end.setTime(VEVENT_FORMAT.parse(event.getDtEnd()));
-                intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
-            } catch (ParseException e) {
-            }
-        }
+            start.setTime(date);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, start.getTimeInMillis());
+        });
 
-        if (event.getSummary() != null) {
-            intent.putExtra(CalendarContract.Events.TITLE, event.getSummary());
-        }
-        if (event.getLocation() != null) {
-            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, event.getLocation());
-        }
+        event.getEndDate().ifPresent(date -> {
+            Calendar end = Calendar.getInstance();
+            end.setTime(date);
+            intent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, end.getTimeInMillis());
+        });
+
+        event.getSummary().ifPresent(s -> {
+            intent.putExtra(CalendarContract.Events.TITLE, s);
+        });
+
+        event.getLocation().ifPresent(s -> {
+            intent.putExtra(CalendarContract.Events.EVENT_LOCATION, s);
+        });
+
         return intent;
     }
 
     @Override
     public String getPreview(Context context) {
-        return event.getSummary() == null ? getTimeSpan() : event.getSummary();
+        return event.getSummary().orElse(getTimeSpan());
     }
 
     @Override
@@ -85,21 +77,17 @@ public class VEventElement extends ScanElement {
     public String getTimeSpan() {
         StringBuilder sb = new StringBuilder();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(activity.getString(R.string.date_format));
-        if (event.getDtStart() != null) {
-            try {
-                sb.append(simpleDateFormat.format(VEVENT_FORMAT.parse(event.getDtStart())));
-                if (event.getDtEnd() != null) {
-                    sb.append(" - ");
-                }
-            } catch (Exception e) {
+        event.getStartDate().ifPresent(date -> {
+            sb.append(simpleDateFormat.format(date));
+            if (event.getEndDate().isPresent()) {
+                sb.append(" - ");
             }
-        }
-        if (event.getDtEnd() != null) {
-            try {
-                sb.append(simpleDateFormat.format(VEVENT_FORMAT.parse(event.getDtEnd())));
-            } catch (Exception e) {
-            }
-        }
+        });
+
+        event.getEndDate().ifPresent(date -> {
+            sb.append(simpleDateFormat.format(date));
+        });
+
         return sb.toString();
     }
 
@@ -107,19 +95,14 @@ public class VEventElement extends ScanElement {
     public void create(ScanResultActivity activity) {
         super.create(activity);
         TextView summary = activity.findViewById(R.id.summary);
-        if (event.getSummary() != null) {
-            summary.setText(event.getSummary());
-        }
+        summary.setText(event.getSummary().orElse(""));
+
 
         TextView location = activity.findViewById(R.id.location);
-        if (event.getLocation() != null) {
-            location.setText(event.getLocation());
-        }
+        location.setText(event.getLocation().orElse(""));
 
         TextView url = activity.findViewById(R.id.url);
-        if (event.getUrl() != null) {
-            url.setText(event.getUrl());
-        }
+        url.setText(event.getUrl().orElse(""));
 
         TextView time = activity.findViewById(R.id.time);
         time.setText(getTimeSpan());

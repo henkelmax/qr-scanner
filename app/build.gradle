@@ -50,7 +50,6 @@ dependencies {
 
     implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
     implementation 'com.googlecode.ez-vcard:ez-vcard:0.11.2'
-    implementation 'it.auron:mecard-parser:1.1.5'
     implementation 'org.apache.httpcomponents:httpclient:4.5.13'
     implementation 'commons-io:commons-io:2.8.0'
 

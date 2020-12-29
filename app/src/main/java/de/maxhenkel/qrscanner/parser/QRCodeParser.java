@@ -6,12 +6,12 @@ import de.maxhenkel.qrscanner.parser.email.Email;
 import de.maxhenkel.qrscanner.parser.email.MatMsgParser;
 import de.maxhenkel.qrscanner.parser.mecard.MeCard;
 import de.maxhenkel.qrscanner.parser.mecard.MeCardParser;
+import de.maxhenkel.qrscanner.parser.vevent.VEvent;
+import de.maxhenkel.qrscanner.parser.vevent.VEventParser;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfig;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfigParser;
 import ezvcard.Ezvcard;
 import ezvcard.VCard;
-import it.auron.library.vevent.VEvent;
-import it.auron.library.vevent.VEventParser;
 
 public class QRCodeParser {
 
@@ -60,7 +60,7 @@ public class QRCodeParser {
         if ((m = GeoElement.GEO.matcher(result.getData())).matches()) {
             return GeoElement.geo(result, m);
         }
-        if ((m = VEventElement.VEVENT.matcher(result.getData())).matches()) {
+        if ((m = VEventParser.VEVENT.matcher(result.getData())).matches()) {
             VEvent event = VEventParser.parse(result.getData());
             if (event != null) {
                 return new VEventElement(result, event);

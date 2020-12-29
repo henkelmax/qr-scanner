@@ -77,9 +77,11 @@ END:VCARD
 
 ![vEvent](vevent.png)
 
-```
+``` vevent
 BEGIN:VEVENT
 SUMMARY:Summer Vacation!
+LOCATION:Germany
+URL:https://johndoe.example.com/
 DTSTART:20210607T080000Z
 DTEND:20210614T080000Z
 END:VEVENT
