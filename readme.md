@@ -71,4 +71,3 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 
 - [ZXing Android Embedded](https://github.com/journeyapps/zxing-android-embedded)
 - [ez-vcard](https://github.com/mangstadt/ez-vcard)
-- [QrCardParsing](https://github.com/RurioLuca/QrCardParsing)
