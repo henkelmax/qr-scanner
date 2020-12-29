@@ -2,8 +2,8 @@ package de.maxhenkel.qrscanner.parser;
 
 import java.util.regex.Matcher;
 
-import de.maxhenkel.qrscanner.parser.matmsg.Email;
-import de.maxhenkel.qrscanner.parser.matmsg.MatMsgParser;
+import de.maxhenkel.qrscanner.parser.email.Email;
+import de.maxhenkel.qrscanner.parser.email.MatMsgParser;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfig;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfigParser;
 import ezvcard.Ezvcard;
@@ -24,7 +24,7 @@ public class QRCodeParser {
             return new URLElement(result, m.group(1));
         }
         if ((m = EmailElement.EMAIL.matcher(result.getData())).matches()) {
-            return EmailElement.email(result, m);
+            return EmailElement.plainEmail(result, m);
         }
         if ((m = EmailElement.MAILTO.matcher(result.getData())).matches()) {
             return EmailElement.mailto(result, m);
@@ -32,7 +32,7 @@ public class QRCodeParser {
         if ((m = MatMsgParser.MATMSG.matcher(result.getData())).matches()) {
             Email email = MatMsgParser.parse(result.getData());
             if (email != null) {
-                return EmailElement.matmsg(result, email);
+                return EmailElement.email(result, email);
             }
             return EmailElement.mailto(result, m);
         }

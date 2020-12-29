@@ -1,4 +1,4 @@
-package de.maxhenkel.qrscanner.parser.matmsg;
+package de.maxhenkel.qrscanner.parser.email;
 
 import androidx.annotation.Nullable;
 
@@ -40,16 +40,12 @@ public class MatMsgParser {
             }
 
             if (split[0].equalsIgnoreCase("TO")) {
-                email.to = split[1];
+                email.to = new String[]{split[1]};
             } else if (split[0].equalsIgnoreCase("SUB")) {
                 email.subject = split[1];
             } else if (split[0].equalsIgnoreCase("BODY")) {
                 email.body = split[1];
             }
-        }
-
-        if (email.getTo() == null) {
-            return null;
         }
 
         return email;

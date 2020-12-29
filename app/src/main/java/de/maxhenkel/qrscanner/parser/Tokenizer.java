@@ -3,6 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Tokenizer {
@@ -34,6 +35,10 @@ public class Tokenizer {
         tokens.add(sb.toString());
 
         return tokens;
+    }
+
+    public static String[] splitTrim(String str, String split) {
+        return Arrays.stream(str.split(split)).map(String::trim).toArray(String[]::new);
     }
 
 }

@@ -8,14 +8,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
-import de.maxhenkel.qrscanner.parser.matmsg.Email;
+import de.maxhenkel.qrscanner.parser.email.Email;
 import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class EmailElement extends ScanElement {
@@ -23,76 +21,46 @@ public class EmailElement extends ScanElement {
     public static final Pattern EMAIL = Pattern.compile("^((([!#$%&'*+\\-/=?^_`{|}~\\w])|([!#$%&'*+\\-/=?^_`{|}~\\w][!#$%&'*+\\-/=?^_`{|}~\\.\\w]{0,}[!#$%&'*+\\-/=?^_`{|}~\\w]))[@]\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*)$");
     public static final Pattern MAILTO = Pattern.compile("^mailto:([^?]+)(?:\\?(.+))?$", Pattern.CASE_INSENSITIVE);
 
-    private String[] emails;
-    private String[] cc;
-    private String[] bcc;
-    private String subject;
-    private String body;
+    private Email email;
     private String mailto;
 
-    public EmailElement(ScanResult result, String[] emails, String[] cc, String[] bcc, String subject, String body, String mailto) {
+    public EmailElement(ScanResult result, Email email, String mailto) {
         super(result);
-        this.emails = emails;
-        this.cc = cc;
-        this.bcc = bcc;
-        this.subject = subject;
-        this.body = body;
+        this.email = email;
         this.mailto = mailto;
     }
 
-    public static EmailElement matmsg(ScanResult result, Email email) {
+    public static EmailElement email(ScanResult result, Email email) {
         StringBuilder sb = new StringBuilder();
         sb.append("mailto:");
-        sb.append(email.getTo());
+        sb.append(TextUtils.join(",", email.getTo()));
 
         Query query = new Query();
+        query.add("cc", TextUtils.join(",", email.getCc()));
+        query.add("bcc", TextUtils.join(",", email.getBcc()));
         query.add("subject", email.getSubject());
         query.add("body", email.getBody());
 
         sb.append(query.build());
-        return new EmailElement(result, new String[]{email.getTo()}, new String[0], new String[0], email.getSubject() == null ? "" : email.getSubject(), email.getBody() == null ? "" : email.getBody(), sb.toString());
+        return new EmailElement(result, email, sb.toString());
     }
 
-    public static EmailElement email(ScanResult result, Matcher matcher) {
-        return new EmailElement(result, new String[]{result.getData()}, new String[0], new String[0], "", "", "mailto:" + result.getData());
+    public static EmailElement plainEmail(ScanResult result, Matcher matcher) {
+        return new EmailElement(result, new Email(new String[]{result.getData()}, new String[0], new String[0], null, null), "mailto:" + result.getData());
     }
 
     public static EmailElement mailto(ScanResult result, Matcher matcher) {
         String email = matcher.group(1);
-        String[] emails = Arrays.stream(email.split(",")).map(String::trim).toArray(String[]::new);
+        String[] emails = Tokenizer.splitTrim(email, ",");
 
         Query query = Query.parse(matcher.group(2));
 
-        String body = query.get("body").orElse("");
-        String subject = query.get("subject").orElse("");
-        String cc = query.get("cc").orElse("");
-        String bcc = query.get("bcc").orElse("");
+        String body = query.get("body").orElse(null);
+        String subject = query.get("subject").orElse(null);
+        String[] cc = Tokenizer.splitTrim(query.get("cc").orElse(""), ",");
+        String[] bcc = Tokenizer.splitTrim(query.get("bcc").orElse(""), ",");
 
-        return new EmailElement(result, emails, cc.split(","), bcc.split(","), subject, body, result.getData());
-    }
-
-    public String[] getEmails() {
-        return emails;
-    }
-
-    public String[] getCc() {
-        return cc;
-    }
-
-    public String[] getBcc() {
-        return bcc;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getMailto() {
-        return mailto;
+        return new EmailElement(result, new Email(emails, cc, bcc, subject, body), result.getData());
     }
 
     @Override
@@ -102,7 +70,7 @@ public class EmailElement extends ScanElement {
 
     @Override
     public String getPreview(Context context) {
-        return TextUtils.join(", ", emails);
+        return TextUtils.join(", ", email.getTo());
     }
 
     @Override
@@ -119,11 +87,11 @@ public class EmailElement extends ScanElement {
     public void create(ScanResultActivity activity) {
         super.create(activity);
         TextView emails = activity.findViewById(R.id.emails);
-        emails.setText(Arrays.stream(getEmails()).collect(Collectors.joining(", ")));
+        emails.setText(TextUtils.join("\n", email.getTo()));
 
         TextView cc = activity.findViewById(R.id.cc);
-        if (getCc().length > 0) {
-            cc.setText(Arrays.stream(getCc()).collect(Collectors.joining(", ")));
+        if (email.getCc().length > 0) {
+            cc.setText(TextUtils.join("\n", email.getCc()));
         } else {
             TextView titleCc = activity.findViewById(R.id.titleCc);
             titleCc.setVisibility(View.GONE);
@@ -131,8 +99,8 @@ public class EmailElement extends ScanElement {
         }
 
         TextView bcc = activity.findViewById(R.id.bcc);
-        if (getBcc().length > 0) {
-            bcc.setText(Arrays.stream(getBcc()).collect(Collectors.joining(", ")));
+        if (email.getBcc().length > 0) {
+            bcc.setText(TextUtils.join("\n", email.getBcc()));
         } else {
             TextView titleBcc = activity.findViewById(R.id.titleBcc);
             titleBcc.setVisibility(View.GONE);
@@ -140,10 +108,10 @@ public class EmailElement extends ScanElement {
         }
 
         TextView subject = activity.findViewById(R.id.subject);
-        subject.setText(getSubject());
+        subject.setText(email.getSubject().orElse(""));
 
         TextView body = activity.findViewById(R.id.body);
-        body.setText(getBody());
+        body.setText(email.getBody().orElse(""));
 
         Button send = activity.findViewById(R.id.sendEmail);
         send.setOnClickListener(v -> {

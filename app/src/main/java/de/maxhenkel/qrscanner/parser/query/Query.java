@@ -107,6 +107,20 @@ public class Query {
     /**
      * Adds the query parameter
      * <p>
+     * If one parameter is null or an empty optional it won't get added
+     *
+     * @param key   the key
+     * @param value the optional value
+     */
+    public void add(String key, Optional<String> value) {
+        if (key != null && value != null && value.isPresent()) {
+            parameters.add(new BasicNameValuePair(key, value.get()));
+        }
+    }
+
+    /**
+     * Adds the query parameter
+     * <p>
      * If one parameter is null it won't get added
      *
      * @param key   the key
