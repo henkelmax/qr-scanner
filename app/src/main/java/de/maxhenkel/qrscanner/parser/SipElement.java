@@ -3,8 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,11 +37,6 @@ public class SipElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_sip;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_sip;
     }
@@ -50,11 +44,10 @@ public class SipElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView address = activity.findViewById(R.id.address);
-        address.setText(this.address);
 
-        Button call = activity.findViewById(R.id.call);
-        call.setOnClickListener(v -> {
+        addValueTextView(address, Linkify.WEB_URLS);
+
+        addButton(R.string.open_sip).setOnClickListener(v -> {
             open(activity);
         });
     }

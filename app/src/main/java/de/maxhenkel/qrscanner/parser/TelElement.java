@@ -3,8 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.util.regex.Pattern;
 
@@ -22,10 +21,6 @@ public class TelElement extends ScanElement {
         this.number = number;
     }
 
-    public String getNumber() {
-        return number;
-    }
-
     @Override
     public Intent getIntent(Context context) {
         return new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number));
@@ -37,11 +32,6 @@ public class TelElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_tel;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_tel;
     }
@@ -49,11 +39,10 @@ public class TelElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView textView = activity.findViewById(R.id.tel);
-        textView.setText(getNumber());
 
-        Button call = activity.findViewById(R.id.call);
-        call.setOnClickListener(v -> {
+        addValueTextView(number, Linkify.PHONE_NUMBERS);
+
+        addButton(R.string.open_tel).setOnClickListener(v -> {
             open(activity);
         });
     }

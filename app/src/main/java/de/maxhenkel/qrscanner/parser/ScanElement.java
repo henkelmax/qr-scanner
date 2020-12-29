@@ -3,7 +3,9 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,10 +33,6 @@ public abstract class ScanElement {
 
     public String getRawText() {
         return result.getData();
-    }
-
-    public int getLayout() {
-        return R.layout.result_text;
     }
 
     public int getTitle() {
@@ -83,14 +81,10 @@ public abstract class ScanElement {
 
     public void create(ScanResultActivity activity) {
         this.activity = activity;
-        activity.setContentView(getLayout());
+        activity.setContentView(R.layout.activity_result);
         viewRaw = activity.findViewById(R.id.viewRaw);
         save = activity.findViewById(R.id.save);
         title = activity.findViewById(R.id.title);
-
-        if (viewRaw == null || title == null) {
-            return;
-        }
 
         title.setText(getTitle());
 
@@ -102,6 +96,84 @@ public abstract class ScanElement {
         save.setOnClickListener(v -> {
             activity.save(getFileName(), getMimeType());
         });
+    }
+
+    public TextView addTitleTextView(String title) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        TextView v = (TextView) LayoutInflater.from(activity).inflate(R.layout.template_title, content, false);
+        v.setText(title);
+        content.addView(v);
+        return v;
+    }
+
+    public TextView addTitleTextView(int title) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        TextView v = (TextView) LayoutInflater.from(activity).inflate(R.layout.template_title, content, false);
+        v.setText(title);
+        content.addView(v);
+        return v;
+    }
+
+    public TextView addValueTextView(String text, int linkify) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        TextView v = (TextView) LayoutInflater.from(activity).inflate(R.layout.template_value, content, false);
+        v.setAutoLinkMask(linkify);
+        v.setText(text);
+        content.addView(v);
+        return v;
+    }
+
+    public TextView addValueTextView(String text) {
+        return addValueTextView(text, 0);
+    }
+
+    public void addTitleValue(String title, String text, int linkify) {
+        addTitleTextView(title);
+        addValueTextView(text, linkify);
+    }
+
+    public void addTitleValue(int title, String text, int linkify) {
+        addTitleTextView(title);
+        addValueTextView(text, linkify);
+    }
+
+    public void addTitleValue(String title, String text) {
+        addTitleValue(title, text, 0);
+    }
+
+    public void addTitleValue(int title, String text) {
+        addTitleValue(title, text, 0);
+    }
+
+    public TextView addMonospaceValueTextView(String text, int linkify) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        TextView v = (TextView) LayoutInflater.from(activity).inflate(R.layout.template_value_monospace, content, false);
+        v.setAutoLinkMask(linkify);
+        v.setText(text);
+        content.addView(v);
+        return v;
+    }
+
+    public TextView addMonospaceValueTextView(String text) {
+        return addMonospaceValueTextView(text);
+    }
+
+    public Button addButton(String text) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        LinearLayout l = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.template_button, content, false);
+        Button button = (Button) l.getChildAt(0);
+        button.setText(text);
+        content.addView(l);
+        return button;
+    }
+
+    public Button addButton(int text) {
+        LinearLayout content = activity.findViewById(R.id.content);
+        LinearLayout l = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.template_button, content, false);
+        Button button = (Button) l.getChildAt(0);
+        button.setText(text);
+        content.addView(l);
+        return button;
     }
 
 }

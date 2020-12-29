@@ -4,13 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
-import android.text.Html;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.TextUtils;
+import android.text.util.Linkify;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -32,17 +30,12 @@ import ezvcard.property.Url;
 public class VCardElement extends ScanElement {
 
     public static final Pattern VCARD = Pattern.compile("^(\\s*BEGIN:VCARD\\s*([\\S\\s]*)\\s*END:VCARD\\s*)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
-    private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
 
     private VCard card;
 
     public VCardElement(ScanResult result, VCard card) {
         super(result);
         this.card = card;
-    }
-
-    public VCard getCard() {
-        return card;
     }
 
     public String getName() {
@@ -81,6 +74,30 @@ public class VCardElement extends ScanElement {
         } else {
             return telephone.getText();
         }
+    }
+
+    public static String getAddress(Address address) {
+        StringBuilder sb = new StringBuilder();
+        if (address.getStreetAddress() != null) {
+            sb.append(address.getStreetAddress());
+            sb.append(", ");
+        }
+        if (address.getPostalCode() != null) {
+            sb.append(address.getPostalCode());
+            sb.append(" ");
+        }
+        if (address.getLocality() != null) {
+            sb.append(address.getLocality());
+            sb.append(", ");
+        }
+        if (address.getRegion() != null) {
+            sb.append(address.getRegion());
+            sb.append(" ");
+        }
+        if (address.getCountry() != null) {
+            sb.append(address.getCountry());
+        }
+        return sb.toString();
     }
 
     @Override
@@ -134,7 +151,7 @@ public class VCardElement extends ScanElement {
             ContentValues birthdayRow = new ContentValues();
             birthdayRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
             birthdayRow.put(ContactsContract.Data.CONTENT_TYPE, ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
-            birthdayRow.put(ContactsContract.CommonDataKinds.Event.START_DATE, DATE_FORMAT.format(birthday.getCalendar().getTime()));
+            birthdayRow.put(ContactsContract.CommonDataKinds.Event.START_DATE, new SimpleDateFormat(activity.getString(R.string.birthday_date_format)).format(birthday.getCalendar().getTime()));
             contactData.add(birthdayRow);
         }
 
@@ -249,11 +266,6 @@ public class VCardElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_contact;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_contact;
     }
@@ -271,102 +283,91 @@ public class VCardElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView contact = activity.findViewById(R.id.contact);
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(getName());
-        sb.append("<br/><br/>");
+        String name = getName();
+        if (!name.isEmpty()) {
+            addTitleValue(R.string.title_contact_name, name);
+        }
 
         if (card.getOrganization() != null) {
-            for (String org : card.getOrganization().getValues()) {
-                sb.append(org);
-                sb.append(" ");
-            }
-            sb.append("<br/><br/>");
+            addTitleValue(R.string.title_contact_organization, TextUtils.join(" ", card.getOrganization().getValues()));
         }
 
-        for (Telephone tel : card.getTelephoneNumbers()) {
-            sb.append("<b>");
-            sb.append(tel.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")));
-            if (!tel.getTypes().isEmpty()) {
-                sb.append(": ");
-            }
-            sb.append("</b>");
-            sb.append(getPhoneNumber(tel));
-            sb.append("<br/>");
+        if (!card.getTelephoneNumbers().isEmpty()) {
+            addTitleValue(R.string.title_contact_telephone_numbers, card
+                    .getTelephoneNumbers()
+                    .stream()
+                    .map(telephone -> {
+                        if (telephone.getTypes().isEmpty()) {
+                            return getPhoneNumber(telephone);
+                        } else {
+                            return String.format("%s: %s", telephone.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")), getPhoneNumber(telephone));
+                        }
+                    })
+                    .collect(Collectors.joining("\n")), Linkify.PHONE_NUMBERS);
         }
 
-        for (Email email : card.getEmails()) {
-            sb.append("<b>");
-            sb.append(email.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")));
-            if (!email.getTypes().isEmpty()) {
-                sb.append(": ");
-            }
-            sb.append("</b>");
-            sb.append(email.getValue());
-            sb.append("<br/>");
+        if (!card.getEmails().isEmpty()) {
+            addTitleValue(R.string.title_contact_emails, card
+                    .getEmails()
+                    .stream()
+                    .map(email -> {
+                        if (email.getTypes().isEmpty()) {
+                            return email.getValue();
+                        } else {
+                            return String.format("%s: %s", email.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")), email.getValue());
+                        }
+                    })
+                    .collect(Collectors.joining("\n")), Linkify.EMAIL_ADDRESSES);
         }
 
-        for (Address address : card.getAddresses()) {
-            sb.append("<b>");
-            sb.append(address.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")));
-            if (!address.getTypes().isEmpty()) {
-                sb.append(": ");
-            }
-            sb.append("</b>");
-            if (address.getStreetAddress() != null) {
-                sb.append(address.getStreetAddress());
-                sb.append(", ");
-            }
-            if (address.getPostalCode() != null) {
-                sb.append(address.getPostalCode());
-                sb.append(" ");
-            }
-            if (address.getLocality() != null) {
-                sb.append(address.getLocality());
-                sb.append(", ");
-            }
-            if (address.getRegion() != null) {
-                sb.append(address.getRegion());
-                sb.append(" ");
-            }
-            if (address.getCountry() != null) {
-                sb.append(address.getCountry());
-            }
-            sb.append("<br/>");
+        if (!card.getAddresses().isEmpty()) {
+            addTitleValue(R.string.title_contact_addresses, card
+                    .getAddresses()
+                    .stream()
+                    .map(address -> {
+                        if (address.getTypes().isEmpty()) {
+                            return getAddress(address);
+                        } else {
+                            return String.format("%s:\n%s", address.getTypes().stream().map(VCardParameter::getValue).collect(Collectors.joining(", ")), getAddress(address));
+                        }
+                    })
+                    .collect(Collectors.joining("\n")), Linkify.MAP_ADDRESSES);
         }
 
-        for (Url url : card.getUrls()) {
-            if (url.getType() != null) {
-                sb.append("<b>");
-                sb.append(url.getType());
-                sb.append(": </b>");
-            }
-            sb.append(url.getValue());
-            sb.append("<br/>");
+        if (!card.getUrls().isEmpty()) {
+            addTitleValue(R.string.title_contact_urls, card
+                    .getUrls()
+                    .stream()
+                    .map(url -> {
+                        if (url.getType().isEmpty()) {
+                            return url.getValue();
+                        } else {
+                            return String.format("%s: %s", url.getType(), url.getValue());
+                        }
+                    })
+                    .collect(Collectors.joining("\n")), Linkify.WEB_URLS);
         }
 
-        for (Birthday birthday : card.getBirthdays()) {
-            sb.append(DATE_FORMAT.format(birthday.getCalendar().getTime()));
-            sb.append("<br/>");
+        if (card.getBirthday() != null) {
+            addTitleValue(R.string.title_contact_birthday, new SimpleDateFormat(activity.getString(R.string.birthday_date_format)).format(card.getBirthday().getCalendar().getTime()));
         }
 
-        sb.append("<br/>");
-
-        for (Note note : card.getNotes()) {
-            if (note.getType() != null) {
-                sb.append("<b>");
-                sb.append(note.getType());
-                sb.append(": </b>");
-            }
-            sb.append(note.getValue());
-            sb.append("<br/>");
+        if (!card.getNotes().isEmpty()) {
+            addTitleValue(R.string.title_contact_notes, card
+                    .getNotes()
+                    .stream()
+                    .map(note -> {
+                        if (note.getType().isEmpty()) {
+                            return note.getValue();
+                        } else {
+                            return String.format("%s: %s", note.getType(), note.getValue());
+                        }
+                    })
+                    .collect(Collectors.joining("\n")));
         }
 
-        contact.setText(Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_COMPACT));
-
-        Button send = activity.findViewById(R.id.addContact);
-        send.setOnClickListener(v -> {
+        addButton(R.string.open_contact).setOnClickListener(v -> {
             open(activity);
         });
     }

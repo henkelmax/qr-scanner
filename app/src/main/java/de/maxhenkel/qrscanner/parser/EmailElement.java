@@ -4,9 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -74,11 +72,6 @@ public class EmailElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_email;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_email;
     }
@@ -86,35 +79,26 @@ public class EmailElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView emails = activity.findViewById(R.id.emails);
-        emails.setText(TextUtils.join("\n", email.getTo()));
 
-        TextView cc = activity.findViewById(R.id.cc);
+        addTitleValue(R.string.title_email_recipients, TextUtils.join("\n", email.getTo()), Linkify.EMAIL_ADDRESSES);
+
         if (email.getCc().length > 0) {
-            cc.setText(TextUtils.join("\n", email.getCc()));
-        } else {
-            TextView titleCc = activity.findViewById(R.id.titleCc);
-            titleCc.setVisibility(View.GONE);
-            cc.setVisibility(View.GONE);
+            addTitleValue(R.string.title_email_cc, TextUtils.join("\n", email.getCc()), Linkify.EMAIL_ADDRESSES);
         }
 
-        TextView bcc = activity.findViewById(R.id.bcc);
         if (email.getBcc().length > 0) {
-            bcc.setText(TextUtils.join("\n", email.getBcc()));
-        } else {
-            TextView titleBcc = activity.findViewById(R.id.titleBcc);
-            titleBcc.setVisibility(View.GONE);
-            bcc.setVisibility(View.GONE);
+            addTitleValue(R.string.title_email_bcc, TextUtils.join("\n", email.getBcc()), Linkify.EMAIL_ADDRESSES);
         }
 
-        TextView subject = activity.findViewById(R.id.subject);
-        subject.setText(email.getSubject().orElse(""));
+        email.getSubject().ifPresent(sub -> {
+            addTitleValue(R.string.title_email_subject, sub);
+        });
 
-        TextView body = activity.findViewById(R.id.body);
-        body.setText(email.getBody().orElse(""));
+        email.getBody().ifPresent(body -> {
+            addTitleValue(R.string.title_email_body, body);
+        });
 
-        Button send = activity.findViewById(R.id.sendEmail);
-        send.setOnClickListener(v -> {
+        addButton(R.string.open_email).setOnClickListener(v -> {
             open(activity);
         });
     }

@@ -39,14 +39,6 @@ public class ScanResultActivity extends Activity {
 
         element = scanResult.parse();
         element.create(this);
-
-        new Thread(() -> {
-            try {
-                ScanHistory.add(getApplicationContext(), scanResult);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }).start();
     }
 
     @Override

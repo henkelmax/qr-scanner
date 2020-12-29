@@ -4,8 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -50,18 +49,6 @@ public class SMSElement extends ScanElement {
         return new SMSElement(result, numbers, query.get("body").orElse(""), result.getData());
     }
 
-    public String[] getNumbers() {
-        return numbers;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
     @Override
     public Intent getIntent(Context context) {
         return new Intent(Intent.ACTION_SENDTO, Uri.parse(action));
@@ -73,11 +60,6 @@ public class SMSElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_sms;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_sms;
     }
@@ -85,14 +67,11 @@ public class SMSElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView numbers = activity.findViewById(R.id.numbers);
-        numbers.setText(TextUtils.join("\n", getNumbers()));
 
-        TextView body = activity.findViewById(R.id.body);
-        body.setText(getBody());
+        addTitleValue(R.string.title_numbers, TextUtils.join("\n", numbers), Linkify.PHONE_NUMBERS);
+        addTitleValue(R.string.title_sms_text, body);
 
-        Button send = activity.findViewById(R.id.sendSms);
-        send.setOnClickListener(v -> {
+        addButton(R.string.open_sms).setOnClickListener(v -> {
             open(activity);
         });
     }

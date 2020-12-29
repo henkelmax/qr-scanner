@@ -3,9 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -86,11 +83,6 @@ public class GeoElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_geo;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_geo;
     }
@@ -98,40 +90,23 @@ public class GeoElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView latText = activity.findViewById(R.id.lat);
-        latText.setText(String.valueOf(lat));
 
-        TextView lngText = activity.findViewById(R.id.lng);
-        lngText.setText(String.valueOf(lng));
+        addTitleValue(R.string.title_geo_lat, String.valueOf(lat));
+        addTitleValue(R.string.title_geo_lng, String.valueOf(lng));
 
-        TextView altitudeText = activity.findViewById(R.id.altitude);
         if (altitude > 0D) {
-            altitudeText.setText(String.valueOf(altitude));
-        } else {
-            TextView altitudeTitle = activity.findViewById(R.id.titleAltitude);
-            altitudeText.setVisibility(View.GONE);
-            altitudeTitle.setVisibility(View.GONE);
+            addTitleValue(R.string.title_geo_altitude, String.valueOf(altitude));
         }
-        TextView zoomText = activity.findViewById(R.id.zoom);
+
         if (zoom > 0) {
-            zoomText.setText(String.valueOf(zoom));
-        } else {
-            TextView zoomTitle = activity.findViewById(R.id.titleZoom);
-            zoomText.setVisibility(View.GONE);
-            zoomTitle.setVisibility(View.GONE);
+            addTitleValue(R.string.title_geo_zoom, String.valueOf(zoom));
         }
 
-        TextView descriptionText = activity.findViewById(R.id.description);
         if (!description.isEmpty()) {
-            descriptionText.setText(description);
-        } else {
-            TextView descriptionTitle = activity.findViewById(R.id.titleDescription);
-            descriptionText.setVisibility(View.GONE);
-            descriptionTitle.setVisibility(View.GONE);
+            addTitleValue(R.string.title_geo_description, description);
         }
 
-        Button open = activity.findViewById(R.id.openMap);
-        open.setOnClickListener(v -> {
+        addButton(R.string.open_geo).setOnClickListener(v -> {
             open(activity);
         });
     }

@@ -3,8 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.CalendarContract;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,11 +54,6 @@ public class VEventElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_event;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_event;
     }
@@ -94,21 +88,25 @@ public class VEventElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView summary = activity.findViewById(R.id.summary);
-        summary.setText(event.getSummary().orElse(""));
 
+        event.getSummary().ifPresent(summary -> {
+            addTitleValue(R.string.title_event_summary, summary);
+        });
 
-        TextView location = activity.findViewById(R.id.location);
-        location.setText(event.getLocation().orElse(""));
+        event.getLocation().ifPresent(location -> {
+            addTitleValue(R.string.title_event_location, location, Linkify.MAP_ADDRESSES);
+        });
 
-        TextView url = activity.findViewById(R.id.url);
-        url.setText(event.getUrl().orElse(""));
+        event.getUrl().ifPresent(url -> {
+            addTitleValue(R.string.title_event_url, url, Linkify.WEB_URLS);
+        });
 
-        TextView time = activity.findViewById(R.id.time);
-        time.setText(getTimeSpan());
+        String timeSpan = getTimeSpan();
+        if (!timeSpan.isEmpty()) {
+            addTitleValue(R.string.title_event_time, timeSpan);
+        }
 
-        Button saveEvent = activity.findViewById(R.id.saveEvent);
-        saveEvent.setOnClickListener(v -> {
+        addButton(R.string.open_event).setOnClickListener(v -> {
             open(activity);
         });
     }

@@ -4,14 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
-import android.text.Html;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.TextUtils;
+import android.text.util.Linkify;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
@@ -109,11 +106,6 @@ public class MeCardElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_contact;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_contact;
     }
@@ -121,56 +113,40 @@ public class MeCardElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView contact = activity.findViewById(R.id.contact);
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(getName());
-        sb.append("<br/>");
-
-        Optional<Date> birthdayDate = card.getBirthdayDate();
-        if (birthdayDate.isPresent()) {
-            SimpleDateFormat sdf = new SimpleDateFormat(activity.getString(R.string.birthday_date_format));
-            sb.append("*");
-            sb.append(sdf.format(birthdayDate.get()));
-            sb.append("<br/>");
+        String name = getName();
+        if (!name.isEmpty()) {
+            addTitleValue(R.string.title_contact_name, name);
         }
-        sb.append("<br/>");
+        card.getOrg().ifPresent(org -> {
+            addTitleValue(R.string.title_contact_organization, org);
+        });
 
-        if (card.getOrg().isPresent()) {
-            sb.append(card.getOrg().get());
-            sb.append("<br/><br/>");
+        if (!card.getTelephone().isEmpty()) {
+            addTitleValue(R.string.title_contact_telephone_numbers, TextUtils.join("\n", card.getTelephone()), Linkify.PHONE_NUMBERS);
         }
 
-        for (String tel : card.getTelephone()) {
-            sb.append(tel);
-            sb.append("<br/>");
-        }
+        card.getEmail().ifPresent(email -> {
+            addTitleValue(R.string.title_contact_emails, email, Linkify.EMAIL_ADDRESSES);
+        });
 
-        if (card.getEmail().isPresent()) {
-            sb.append(card.getEmail().get());
-            sb.append("<br/>");
-        }
+        card.getAddress().ifPresent(address -> {
+            addTitleValue(R.string.title_contact_addresses, address, Linkify.MAP_ADDRESSES);
+        });
 
-        if (card.getAddress().isPresent()) {
-            sb.append(card.getAddress().get());
-            sb.append("<br/>");
-        }
+        card.getUrl().ifPresent(url -> {
+            addTitleValue(R.string.title_contact_urls, url, Linkify.WEB_URLS);
+        });
 
-        if (card.getUrl().isPresent()) {
-            sb.append(card.getUrl().get());
-            sb.append("<br/>");
-        }
+        card.getBirthdayDate().ifPresent(date -> {
+            addTitleValue(R.string.title_contact_birthday, new SimpleDateFormat(activity.getString(R.string.birthday_date_format)).format(date));
+        });
 
-        if (card.getNote().isPresent()) {
-            sb.append("<br/>");
-            sb.append(card.getNote().get());
-            sb.append("<br/>");
-        }
+        card.getNote().ifPresent(note -> {
+            addTitleValue(R.string.title_contact_notes, note);
+        });
 
-        contact.setText(Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_COMPACT));
-
-        Button send = activity.findViewById(R.id.addContact);
-        send.setOnClickListener(v -> {
+        addButton(R.string.open_contact).setOnClickListener(v -> {
             open(activity);
         });
     }

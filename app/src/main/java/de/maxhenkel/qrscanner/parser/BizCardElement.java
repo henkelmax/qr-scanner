@@ -4,9 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.ContactsContract;
-import android.text.Html;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.TextUtils;
+import android.text.util.Linkify;
 
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -80,11 +79,6 @@ public class BizCardElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_contact;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_bizcard;
     }
@@ -92,41 +86,33 @@ public class BizCardElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView contact = activity.findViewById(R.id.contact);
-        StringBuilder sb = new StringBuilder();
 
-        sb.append(getName());
-        sb.append("<br/>");
-        if (card.getTitle().isPresent()) {
-            sb.append(card.getTitle().get());
-            sb.append("<br/>");
-        }
-        sb.append("<br/>");
-
-        if (card.getCompany().isPresent()) {
-            sb.append(card.getCompany().get());
-            sb.append("<br/><br/>");
+        String name = getName();
+        if (!name.isEmpty()) {
+            addTitleValue(R.string.title_contact_name, name);
         }
 
-        for (String tel : card.getTelephone()) {
-            sb.append(tel);
-            sb.append("<br/>");
+        card.getTitle().ifPresent(title -> {
+            addTitleValue(R.string.title_contact_biz_title, title);
+        });
+
+        card.getCompany().ifPresent(company -> {
+            addTitleValue(R.string.title_contact_company, company);
+        });
+
+        if (!card.getTelephone().isEmpty()) {
+            addTitleValue(R.string.title_contact_telephone_numbers, TextUtils.join("\n", card.getTelephone()), Linkify.PHONE_NUMBERS);
         }
 
         if (card.getEmail().isPresent()) {
-            sb.append(card.getEmail().get());
-            sb.append("<br/>");
+            addTitleValue(R.string.title_contact_emails, card.getEmail().get(), Linkify.EMAIL_ADDRESSES);
         }
 
         if (card.getAddress().isPresent()) {
-            sb.append(card.getAddress().get());
-            sb.append("<br/>");
+            addTitleValue(R.string.title_contact_addresses, card.getAddress().get(), Linkify.MAP_ADDRESSES);
         }
 
-        contact.setText(Html.fromHtml(sb.toString(), Html.FROM_HTML_MODE_COMPACT));
-
-        Button send = activity.findViewById(R.id.addContact);
-        send.setOnClickListener(v -> {
+        addButton(R.string.open_contact).setOnClickListener(v -> {
             open(activity);
         });
     }

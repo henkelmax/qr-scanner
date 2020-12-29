@@ -37,8 +37,18 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         history = findViewById(R.id.history);
         scannerView.decodeContinuous(result -> {
             vibrator.vibrate(50L);
+
+            ScanResult scanResult = new ScanResult(result.getTimestamp(), result.getText());
+            new Thread(() -> {
+                try {
+                    ScanHistory.add(getApplicationContext(), scanResult);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+
             Intent i = new Intent(this, ScanResultActivity.class);
-            i.putExtra("scanResult", new ScanResult(result.getTimestamp(), result.getText()));
+            i.putExtra("scanResult", scanResult);
             startActivity(i);
         });
         scannerView.setTorchListener(this);

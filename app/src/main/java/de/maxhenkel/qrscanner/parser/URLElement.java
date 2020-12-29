@@ -3,8 +3,7 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Button;
-import android.widget.TextView;
+import android.text.util.Linkify;
 
 import java.util.regex.Pattern;
 
@@ -23,10 +22,6 @@ public class URLElement extends ScanElement {
         this.url = url;
     }
 
-    public String getURL() {
-        return url;
-    }
-
     @Override
     public Intent getIntent(Context context) {
         return new Intent(Intent.ACTION_VIEW, Uri.parse(url));
@@ -38,11 +33,6 @@ public class URLElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_url;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_url;
     }
@@ -50,11 +40,10 @@ public class URLElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView textView = activity.findViewById(R.id.url);
-        textView.setText(getURL());
 
-        Button openLink = activity.findViewById(R.id.openLink);
-        openLink.setOnClickListener(v -> {
+        addValueTextView(url, Linkify.WEB_URLS);
+
+        addButton(R.string.open_link).setOnClickListener(v -> {
             open(activity);
         });
     }

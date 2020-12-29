@@ -4,10 +4,6 @@ import android.content.Context;
 import android.net.wifi.WifiEnterpriseConfig;
 import android.net.wifi.WifiManager;
 import android.net.wifi.WifiNetworkSuggestion;
-import android.text.Html;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Collections;
@@ -33,19 +29,19 @@ public class WifiElement extends ScanElement {
     @Override
     public boolean open(Context context) {
         WifiNetworkSuggestion.Builder suggestion = new WifiNetworkSuggestion.Builder()
-                .setSsid(wifiConfig.getSsid())
+                .setSsid(wifiConfig.getSsid().orElse(""))
                 .setIsHiddenSsid(wifiConfig.isHidden());
 
-        if (wifiConfig.getAuthenticationType() != null) {
-            String auth = wifiConfig.getAuthenticationType().toUpperCase();
+        if (wifiConfig.getAuthenticationType().isPresent()) {
+            String auth = wifiConfig.getAuthenticationType().get().toUpperCase();
 
             if (auth.equals("WPA") || auth.equals("WPA2") || auth.equals("WPA-2")) {
-                if (wifiConfig.getPassword() != null) {
-                    suggestion.setWpa2Passphrase(wifiConfig.getPassword());
+                if (wifiConfig.getPassword().isPresent()) {
+                    suggestion.setWpa2Passphrase(wifiConfig.getPassword().get());
                 }
             } else if (auth.equals("WPA3") || auth.equals("WPA-3")) {
-                if (wifiConfig.getPassword() != null) {
-                    suggestion.setWpa3Passphrase(wifiConfig.getPassword());
+                if (wifiConfig.getPassword().isPresent()) {
+                    suggestion.setWpa3Passphrase(wifiConfig.getPassword().get());
                 }
             } else if (auth.equals("WPA2-EAP")) {
                 suggestion.setWpa2EnterpriseConfig(getEnterpriseConfig(wifiConfig));
@@ -67,20 +63,20 @@ public class WifiElement extends ScanElement {
 
     private WifiEnterpriseConfig getEnterpriseConfig(WifiConfig wifiConfig) {
         WifiEnterpriseConfig enterpriseConfig = new WifiEnterpriseConfig();
-        if (wifiConfig.getAnonymousIdentity() != null) {
-            enterpriseConfig.setAnonymousIdentity(wifiConfig.getAnonymousIdentity());
+        if (wifiConfig.getAnonymousIdentity().isPresent()) {
+            enterpriseConfig.setAnonymousIdentity(wifiConfig.getAnonymousIdentity().get());
         }
-        if (wifiConfig.getIdentity() != null) {
-            enterpriseConfig.setIdentity(wifiConfig.getIdentity());
+        if (wifiConfig.getIdentity().isPresent()) {
+            enterpriseConfig.setIdentity(wifiConfig.getIdentity().get());
         }
-        if (wifiConfig.getPassword() != null) {
-            enterpriseConfig.setPassword(wifiConfig.getPassword());
+        if (wifiConfig.getPassword().isPresent()) {
+            enterpriseConfig.setPassword(wifiConfig.getPassword().get());
         }
-        if (wifiConfig.getPshase2Method() != null) {
-            enterpriseConfig.setPhase2Method(getPhase2Method(wifiConfig.getPshase2Method()));
+        if (wifiConfig.getPshase2Method().isPresent()) {
+            enterpriseConfig.setPhase2Method(getPhase2Method(wifiConfig.getPshase2Method().get()));
         }
-        if (wifiConfig.getEapMethod() != null) {
-            enterpriseConfig.setEapMethod(getEapMethod(wifiConfig.getEapMethod()));
+        if (wifiConfig.getEapMethod().isPresent()) {
+            enterpriseConfig.setEapMethod(getEapMethod(wifiConfig.getEapMethod().get()));
         }
         return enterpriseConfig;
     }
@@ -105,12 +101,7 @@ public class WifiElement extends ScanElement {
 
     @Override
     public String getPreview(Context context) {
-        return wifiConfig.getSsid() == null ? "" : wifiConfig.getSsid();
-    }
-
-    @Override
-    public int getLayout() {
-        return R.layout.result_wifi;
+        return wifiConfig.getSsid().orElse("");
     }
 
     @Override
@@ -121,66 +112,38 @@ public class WifiElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView auth = activity.findViewById(R.id.auth);
-        if (wifiConfig.getAuthenticationType() != null) {
-            auth.setText(wifiConfig.getAuthenticationType());
+
+        if (wifiConfig.getAuthenticationType().isPresent()) {
+            addTitleValue(R.string.title_wifi_auth_type, wifiConfig.getAuthenticationType().get());
         }
 
-        TextView ssid = activity.findViewById(R.id.ssid);
-        if (wifiConfig.getSsid() != null) {
-            ssid.setText(wifiConfig.getSsid());
-        }
+        addTitleValue(R.string.title_wifi_ssid, wifiConfig.getSsid().orElse(""));
 
-        TextView password = activity.findViewById(R.id.password);
-        if (wifiConfig.getPassword() != null) {
-            password.setText(wifiConfig.getPassword());
+        if (wifiConfig.getPassword().isPresent()) {
+            addTitleValue(R.string.title_wifi_password, wifiConfig.getPassword().get());
         }
-
-        TextView other = activity.findViewById(R.id.other);
-        StringBuilder sb = new StringBuilder();
 
         if (wifiConfig.isHidden()) {
-            sb.append("<b>Hidden: </b>");
-            sb.append(wifiConfig.isHidden());
-            sb.append("<br/>");
-        }
-        if (wifiConfig.getEapMethod() != null) {
-            sb.append("<b>EAP: </b>");
-            sb.append(wifiConfig.getEapMethod());
-            sb.append("<br/>");
-        }
-        if (wifiConfig.getIdentity() != null) {
-            sb.append("<b>Identity: </b>");
-            sb.append(wifiConfig.getIdentity());
-            sb.append("<br/>");
-        }
-        if (wifiConfig.getAnonymousIdentity() != null) {
-            sb.append("<b>Anonymous Identity: </b>");
-            sb.append(wifiConfig.getAnonymousIdentity());
-            sb.append("<br/>");
-        }
-        if (wifiConfig.getEapMethod() != null) {
-            sb.append("<b>EAP Method: </b>");
-            sb.append(wifiConfig.getEapMethod());
-            sb.append("<br/>");
-        }
-        if (wifiConfig.getPshase2Method() != null) {
-            sb.append("<b>Phase 2 Method: </b>");
-            sb.append(wifiConfig.getPshase2Method());
-            sb.append("<br/>");
+            addTitleValue(R.string.title_wifi_hidden, wifiConfig.getPassword().get());
         }
 
-        String o = sb.toString();
-        if (!o.isEmpty()) {
-            other.setText(Html.fromHtml(o, Html.FROM_HTML_MODE_COMPACT));
-        } else {
-            TextView otherTitle = activity.findViewById(R.id.titleOther);
-            other.setVisibility(View.GONE);
-            otherTitle.setVisibility(View.GONE);
+        if (wifiConfig.getEapMethod().isPresent()) {
+            addTitleValue(R.string.title_wifi_eap_method, wifiConfig.getEapMethod().get());
         }
 
-        Button saveWifi = activity.findViewById(R.id.saveWifi);
-        saveWifi.setOnClickListener(v -> {
+        if (wifiConfig.getIdentity().isPresent()) {
+            addTitleValue(R.string.title_wifi_identity, wifiConfig.getIdentity().get());
+        }
+
+        if (wifiConfig.getAnonymousIdentity().isPresent()) {
+            addTitleValue(R.string.title_wifi_anonymous_identity, wifiConfig.getAnonymousIdentity().get());
+        }
+
+        if (wifiConfig.getPshase2Method().isPresent()) {
+            addTitleValue(R.string.title_wifi_phase_2_method, wifiConfig.getPshase2Method().get());
+        }
+
+        addButton(R.string.open_wifi).setOnClickListener(v -> {
             open(activity);
         });
     }

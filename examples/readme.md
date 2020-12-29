@@ -49,6 +49,8 @@ TEL;TYPE=HOME,VOICE:(765) 555-4321
 ADR;TYPE=HOME:;;123 Main Street;New York;NY;10030;United States of America
 LABEL;TYPE=HOME:123 Main Street\nNew York\, NY 10030\nUnited States of America
 EMAIL:john.doe@example.com
+URL;TYPE=Homepage:https://johndoe.example.com/
+BDAY:19990101
 REV:2020-12-24T18:00:00Z
 END:VCARD
 ```

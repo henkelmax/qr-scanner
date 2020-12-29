@@ -1,5 +1,7 @@
 package de.maxhenkel.qrscanner.parser.wifi;
 
+import java.util.Optional;
+
 public class WifiConfig {
 
     protected String authenticationType;
@@ -26,35 +28,35 @@ public class WifiConfig {
 
     }
 
-    public String getAuthenticationType() {
-        return authenticationType;
+    public Optional<String> getAuthenticationType() {
+        return Optional.ofNullable(authenticationType);
     }
 
-    public String getSsid() {
-        return ssid;
+    public Optional<String> getSsid() {
+        return Optional.ofNullable(ssid);
     }
 
-    public String getPassword() {
-        return password;
+    public Optional<String> getPassword() {
+        return Optional.ofNullable(password);
     }
 
     public boolean isHidden() {
         return hidden;
     }
 
-    public String getEapMethod() {
-        return eapMethod;
+    public Optional<String> getEapMethod() {
+        return Optional.ofNullable(eapMethod);
     }
 
-    public String getAnonymousIdentity() {
-        return anonymousIdentity;
+    public Optional<String> getAnonymousIdentity() {
+        return Optional.ofNullable(anonymousIdentity);
     }
 
-    public String getIdentity() {
-        return identity;
+    public Optional<String> getIdentity() {
+        return Optional.ofNullable(identity);
     }
 
-    public String getPshase2Method() {
-        return pshase2Method;
+    public Optional<String> getPshase2Method() {
+        return Optional.ofNullable(pshase2Method);
     }
 }

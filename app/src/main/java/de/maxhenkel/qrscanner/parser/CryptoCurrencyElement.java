@@ -3,8 +3,6 @@ package de.maxhenkel.qrscanner.parser;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.widget.Button;
-import android.widget.TextView;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -67,11 +65,6 @@ public class CryptoCurrencyElement extends ScanElement {
     }
 
     @Override
-    public int getLayout() {
-        return R.layout.result_crypto_currency;
-    }
-
-    @Override
     public int getTitle() {
         return R.string.type_crypto_currency;
     }
@@ -79,23 +72,28 @@ public class CryptoCurrencyElement extends ScanElement {
     @Override
     public void create(ScanResultActivity activity) {
         super.create(activity);
-        TextView currency = activity.findViewById(R.id.currency);
-        currency.setText(getType());
 
-        TextView address = activity.findViewById(R.id.address);
-        address.setText(this.address);
+        String type = getType();
+        if (!type.isEmpty()) {
+            addTitleValue(R.string.title_crypto_currency, type);
+        }
+        if (!address.isEmpty()) {
+            addTitleValue(R.string.title_crypto_address, address);
+        }
 
-        TextView amount = activity.findViewById(R.id.amount);
-        amount.setText(String.valueOf(this.amount));
+        if (!amount.isEmpty()) {
+            addTitleValue(R.string.title_crypto_amount, amount);
+        }
 
-        TextView label = activity.findViewById(R.id.label);
-        label.setText(this.label);
+        if (!label.isEmpty()) {
+            addTitleValue(R.string.title_crypto_label, label);
+        }
 
-        TextView message = activity.findViewById(R.id.message);
-        message.setText(this.message);
+        if (!message.isEmpty()) {
+            addTitleValue(R.string.title_crypto_message, message);
+        }
 
-        Button open = activity.findViewById(R.id.open);
-        open.setOnClickListener(v -> {
+        addButton(R.string.open_crypto).setOnClickListener(v -> {
             open(activity);
         });
     }
