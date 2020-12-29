@@ -2,6 +2,8 @@ package de.maxhenkel.qrscanner.parser;
 
 import java.util.regex.Matcher;
 
+import de.maxhenkel.qrscanner.parser.bizcard.BizCard;
+import de.maxhenkel.qrscanner.parser.bizcard.BizCardParser;
 import de.maxhenkel.qrscanner.parser.email.Email;
 import de.maxhenkel.qrscanner.parser.email.MatMsgParser;
 import de.maxhenkel.qrscanner.parser.mecard.MeCard;
@@ -49,6 +51,12 @@ public class QRCodeParser {
             MeCard card = MeCardParser.parse(result.getData());
             if (card != null) {
                 return new MeCardElement(result, card);
+            }
+        }
+        if ((m = BizCardElement.BIZCARD.matcher(result.getData())).matches()) {
+            BizCard card = BizCardParser.parse(result.getData());
+            if (card != null) {
+                return new BizCardElement(result, card);
             }
         }
         if ((m = SMSElement.SMS.matcher(result.getData())).matches()) {

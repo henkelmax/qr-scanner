@@ -8,23 +8,20 @@ import android.text.Html;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Optional;
 import java.util.regex.Pattern;
 
 import de.maxhenkel.qrscanner.R;
 import de.maxhenkel.qrscanner.ScanResultActivity;
-import de.maxhenkel.qrscanner.parser.mecard.MeCard;
+import de.maxhenkel.qrscanner.parser.bizcard.BizCard;
 
-public class MeCardElement extends ScanElement {
+public class BizCardElement extends ScanElement {
 
-    public static final Pattern MECARD = Pattern.compile("^\\s*(MECARD:)(.+)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
+    public static final Pattern BIZCARD = Pattern.compile("^\\s*(BIZCARD:)(.+)$", Pattern.CASE_INSENSITIVE | Pattern.MULTILINE);
 
-    private MeCard card;
+    private BizCard card;
 
-    public MeCardElement(ScanResult result, MeCard card) {
+    public BizCardElement(ScanResult result, BizCard card) {
         super(result);
         this.card = card;
     }
@@ -38,13 +35,7 @@ public class MeCardElement extends ScanElement {
         }
         sb.append(card.getLastName().orElse(""));
 
-        String name = sb.toString().trim();
-
-        if (name.isEmpty()) {
-            return card.getNickname().orElse("");
-        }
-
-        return name;
+        return sb.toString().trim();
     }
 
     @Override
@@ -54,12 +45,8 @@ public class MeCardElement extends ScanElement {
 
         insertIntent.putExtra(ContactsContract.Intents.Insert.NAME, getName());
 
-        if (card.getOrg().isPresent()) {
-            insertIntent.putExtra(ContactsContract.Intents.Insert.COMPANY, card.getOrg().get());
-        }
-
-        if (card.getNote().isPresent()) {
-            insertIntent.putExtra(ContactsContract.Intents.Insert.NOTES, card.getNote().get());
+        if (card.getCompany().isPresent()) {
+            insertIntent.putExtra(ContactsContract.Intents.Insert.COMPANY, card.getCompany().get());
         }
 
         if (card.getAddress().isPresent()) {
@@ -82,22 +69,6 @@ public class MeCardElement extends ScanElement {
             contactData.add(emailRow);
         }
 
-        if (card.getUrl().isPresent()) {
-            ContentValues urlRow = new ContentValues();
-            urlRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Website.CONTENT_ITEM_TYPE);
-            urlRow.put(ContactsContract.CommonDataKinds.Website.URL, card.getUrl().get());
-            contactData.add(urlRow);
-        }
-
-
-        if (card.getBirthday().isPresent()) {
-            ContentValues birthdayRow = new ContentValues();
-            birthdayRow.put(ContactsContract.Data.MIMETYPE, ContactsContract.CommonDataKinds.Event.CONTENT_ITEM_TYPE);
-            birthdayRow.put(ContactsContract.Data.CONTENT_TYPE, ContactsContract.CommonDataKinds.Event.TYPE_BIRTHDAY);
-            birthdayRow.put(ContactsContract.CommonDataKinds.Event.START_DATE, card.getBirthday().get());
-            contactData.add(birthdayRow);
-        }
-
         insertIntent.putParcelableArrayListExtra(ContactsContract.Intents.Insert.DATA, contactData);
 
         return insertIntent;
@@ -115,7 +86,7 @@ public class MeCardElement extends ScanElement {
 
     @Override
     public int getTitle() {
-        return R.string.type_contact;
+        return R.string.type_bizcard;
     }
 
     @Override
@@ -126,18 +97,14 @@ public class MeCardElement extends ScanElement {
 
         sb.append(getName());
         sb.append("<br/>");
-
-        Optional<Date> birthdayDate = card.getBirthdayDate();
-        if (birthdayDate.isPresent()) {
-            SimpleDateFormat sdf = new SimpleDateFormat(activity.getString(R.string.birthday_date_format));
-            sb.append("*");
-            sb.append(sdf.format(birthdayDate.get()));
+        if (card.getTitle().isPresent()) {
+            sb.append(card.getTitle().get());
             sb.append("<br/>");
         }
         sb.append("<br/>");
 
-        if (card.getOrg().isPresent()) {
-            sb.append(card.getOrg().get());
+        if (card.getCompany().isPresent()) {
+            sb.append(card.getCompany().get());
             sb.append("<br/><br/>");
         }
 
@@ -153,17 +120,6 @@ public class MeCardElement extends ScanElement {
 
         if (card.getAddress().isPresent()) {
             sb.append(card.getAddress().get());
-            sb.append("<br/>");
-        }
-
-        if (card.getUrl().isPresent()) {
-            sb.append(card.getUrl().get());
-            sb.append("<br/>");
-        }
-
-        if (card.getNote().isPresent()) {
-            sb.append("<br/>");
-            sb.append(card.getNote().get());
             sb.append("<br/>");
         }
 

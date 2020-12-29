@@ -44,6 +44,7 @@
     <string name="type_sms">SMS</string>
     <string name="type_email">E-Mail</string>
     <string name="type_contact">Contact Information</string>
+    <string name="type_bizcard">Business Card</string>
     <string name="type_geo">Geographic Information</string>
     <string name="type_event">Event</string>
     <string name="type_wifi">Wi-Fi Network Config</string>
