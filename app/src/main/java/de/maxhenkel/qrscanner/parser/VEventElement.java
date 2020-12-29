@@ -50,7 +50,7 @@ public class VEventElement extends ScanElement {
 
     @Override
     public String getPreview(Context context) {
-        return event.getSummary().orElse(getTimeSpan());
+        return event.getSummary().orElse(getTimeSpan(context));
     }
 
     @Override
@@ -68,9 +68,9 @@ public class VEventElement extends ScanElement {
         return "event.ical";
     }
 
-    public String getTimeSpan() {
+    public String getTimeSpan(Context context) {
         StringBuilder sb = new StringBuilder();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(activity.getString(R.string.date_format));
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(context.getString(R.string.date_format));
         event.getStartDate().ifPresent(date -> {
             sb.append(simpleDateFormat.format(date));
             if (event.getEndDate().isPresent()) {
@@ -101,7 +101,7 @@ public class VEventElement extends ScanElement {
             addTitleValue(R.string.title_event_url, url, Linkify.WEB_URLS);
         });
 
-        String timeSpan = getTimeSpan();
+        String timeSpan = getTimeSpan(activity);
         if (!timeSpan.isEmpty()) {
             addTitleValue(R.string.title_event_time, timeSpan);
         }
