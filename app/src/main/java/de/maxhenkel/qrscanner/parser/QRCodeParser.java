@@ -100,6 +100,9 @@ public class QRCodeParser {
                 return new SPDElement(result, spd);
             }
         }
+        if ((m = PaytoElement.PAYTO.matcher(result.getData())).matches()) {
+            return PaytoElement.payto(result, m);
+        }
 
         return new TextElement(result);
     }

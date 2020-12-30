@@ -12,6 +12,7 @@
     <string name="open_crypto">Open</string>
     <string name="open_sip">Call</string>
     <string name="open_otp">Open</string>
+    <string name="open_payment">Open</string>
     <string name="title_numbers">Number(s)</string>
     <string name="title_email_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
@@ -73,6 +74,10 @@
     <string name="title_payment_type">Payment Type</string>
     <string name="title_payment_message">Message</string>
     <string name="title_payment_checksum">Checksum</string>
+    <string name="title_payment_target">Target</string>
+    <string name="title_payment_creditor_name">Creditor Name</string>
+    <string name="title_payment_debitor_name">Debitor Name</string>
+    <string name="title_payment_instruction">Instruction</string>
     <string name="type_text">Text</string>
     <string name="type_url">URL</string>
     <string name="type_tel">Telephone Number</string>

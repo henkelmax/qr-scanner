@@ -150,3 +150,9 @@ END:VEVENT
 ![SPD](spd.png)
 
 `SPD*1.0*ACC:DE1234567890+ABCDEF*ALT-ACC:DE0987654321,123123123123+ABCDEF*AM:420.69*CC:EUR*RF:12345*RN:John Doe*DT:20201231*PT:SPD*MSG:Here is your money%21*CRC32:FF00FF00`
+
+### Payto
+
+![Payto](payto.png)
+
+`payto://sepa/DE1234567890?amount=EUR:420.69&creditor-name=John%20Doe&debitor-name=Jane%20Doe&message=Here%20is%20your%20money&instruction=Save%20it`

@@ -52,6 +52,7 @@ A simple QR code scanner aimed at providing the best compatibility of all format
   - TOTP (`otpauth:`)
   - HOTP (`otpauth:`)
 - Payment
+  - [RFC 8905](https://tools.ietf.org/html/rfc8905) (`payto:`)
   - [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_Descriptor) (SPD)
 
 ## Supported Barcode Types
