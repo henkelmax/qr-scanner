@@ -11,26 +11,43 @@
         app:zxing_use_texture_view="true"
         app:zxing_scanner_layout="@layout/scanner"/>
 
-    <ImageButton
-        android:id="@+id/flash"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="15dp"
+    <RelativeLayout
+        android:id="@+id/flashLayout"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/flash_off"
-        android:background="@android:color/transparent"/>
+        android:layout_alignParentBottom="true">
 
-    <ImageButton
+        <ImageButton
+            android:id="@+id/flash"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="15dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/flash_off"
+            android:background="@android:color/transparent"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
         android:id="@+id/history"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="15dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:scaleType="centerCrop"
-        android:src="@drawable/file_clock"
-        android:background="@android:color/transparent"/>
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_margin="15dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/file_clock"
+            android:background="@android:color/transparent"/>
+
+    </RelativeLayout>
 
 </RelativeLayout>

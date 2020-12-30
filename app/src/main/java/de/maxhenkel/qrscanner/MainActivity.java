@@ -23,7 +23,8 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
     private DecoratedBarcodeView scannerView;
     private CaptureManager captureManager;
     private ImageButton flash;
-    private ImageButton history;
+    private View flashLayout;
+    private View history;
     private boolean torch;
 
     @Override
@@ -34,6 +35,7 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
         scannerView = findViewById(R.id.scanner);
         flash = findViewById(R.id.flash);
+        flashLayout = findViewById(R.id.flashLayout);
         history = findViewById(R.id.history);
         scannerView.decodeContinuous(result -> {
             vibrator.vibrate(50L);
@@ -58,10 +60,10 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         scannerView.setCameraSettings(settings);
 
         if (!getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
-            flash.setVisibility(View.GONE);
+            flashLayout.setVisibility(View.GONE);
         }
 
-        flash.setOnClickListener(v -> {
+        flashLayout.setOnClickListener(v -> {
             if (torch) {
                 scannerView.setTorchOff();
             } else {
