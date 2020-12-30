@@ -142,3 +142,11 @@ END:VEVENT
 ![HOTP](hotp.png)
 
 `otpauth://hotp/My%20Google%202FA?secret=JBSWY3DPEHPK3PXP&issuer=Google&counter=0&algorithm=SHA1&digits=6`
+
+## Payment
+
+### Short Payment Descriptor
+
+![SPD](spd.png)
+
+`SPD*1.0*ACC:DE1234567890+ABCDEF*ALT-ACC:DE0987654321,123123123123+ABCDEF*AM:420.69*CC:EUR*RF:12345*RN:John Doe*DT:20201231*PT:SPD*MSG:Here is your money%21*CRC32:FF00FF00`

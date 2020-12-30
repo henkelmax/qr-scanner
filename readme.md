@@ -51,6 +51,8 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - Two Factor Authentication
   - TOTP (`otpauth:`)
   - HOTP (`otpauth:`)
+- Payment
+  - [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_Descriptor) (SPD)
 
 ## Supported Barcode Types
 

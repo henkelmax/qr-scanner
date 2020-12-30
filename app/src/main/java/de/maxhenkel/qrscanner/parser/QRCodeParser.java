@@ -8,6 +8,8 @@ import de.maxhenkel.qrscanner.parser.email.Email;
 import de.maxhenkel.qrscanner.parser.email.MatMsgParser;
 import de.maxhenkel.qrscanner.parser.mecard.MeCard;
 import de.maxhenkel.qrscanner.parser.mecard.MeCardParser;
+import de.maxhenkel.qrscanner.parser.spd.SPD;
+import de.maxhenkel.qrscanner.parser.spd.SPDParser;
 import de.maxhenkel.qrscanner.parser.vevent.VEvent;
 import de.maxhenkel.qrscanner.parser.vevent.VEventParser;
 import de.maxhenkel.qrscanner.parser.wifi.WifiConfig;
@@ -91,6 +93,12 @@ public class QRCodeParser {
         }
         if ((m = OTPElement.OTPAUTH.matcher(result.getData())).matches()) {
             return OTPElement.otpauth(result, m);
+        }
+        if ((m = SPDParser.SPD.matcher(result.getData())).matches()) {
+            SPD spd = SPDParser.parse(result.getData());
+            if (spd != null) {
+                return new SPDElement(result, spd);
+            }
         }
 
         return new TextElement(result);

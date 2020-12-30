@@ -61,6 +61,18 @@
     <string name="title_otp_digits">Digits</string>
     <string name="title_otp_period">Period</string>
     <string name="title_otp_initial_counter">Initial Counter</string>
+    <string name="title_payment_account">Account</string>
+    <string name="title_payment_iban">IBAN</string>
+    <string name="title_payment_bic">BIC</string>
+    <string name="title_payment_alternative_accounts">Alternative Accounts</string>
+    <string name="title_payment_amount">Amount</string>
+    <string name="title_payment_currency">Currency</string>
+    <string name="title_payment_reference">Reference</string>
+    <string name="title_payment_recipient_name">Recipient Name</string>
+    <string name="title_payment_due_date">Due Date</string>
+    <string name="title_payment_type">Payment Type</string>
+    <string name="title_payment_message">Message</string>
+    <string name="title_payment_checksum">Checksum</string>
     <string name="type_text">Text</string>
     <string name="type_url">URL</string>
     <string name="type_tel">Telephone Number</string>
@@ -75,6 +87,7 @@
     <string name="type_crypto_currency">Crypto Currency</string>
     <string name="type_sip">SIP Address</string>
     <string name="type_otp">Two Factor Authentication</string>
+    <string name="type_payment">Payment</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="birthday_date_format">yyyy.MM.dd</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
