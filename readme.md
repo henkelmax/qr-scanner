@@ -48,6 +48,9 @@ A simple QR code scanner aimed at providing the best compatibility of all format
   - Dash (`dash:`)
 - SIP
   - [RFC 3261](https://tools.ietf.org/html/rfc3261#page-148) (`sip:`, `sips:`)
+- Two Factor Authentication
+  - TOTP (`otpauth:`)
+  - HOTP (`otpauth:`)
 
 ## Supported Barcode Types
 

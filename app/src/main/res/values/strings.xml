@@ -11,6 +11,7 @@
     <string name="open_store">Open Play Store</string>
     <string name="open_crypto">Open</string>
     <string name="open_sip">Call</string>
+    <string name="open_otp">Open</string>
     <string name="title_numbers">Number(s)</string>
     <string name="title_email_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
@@ -52,6 +53,14 @@
     <string name="title_crypto_amount">Amount</string>
     <string name="title_crypto_label">Label</string>
     <string name="title_crypto_message">Message</string>
+    <string name="title_otp_type">Type</string>
+    <string name="title_otp_label">Label</string>
+    <string name="title_otp_secret">Secret</string>
+    <string name="title_otp_issuer">Issuer</string>
+    <string name="title_otp_algorithm">Algorithm</string>
+    <string name="title_otp_digits">Digits</string>
+    <string name="title_otp_period">Period</string>
+    <string name="title_otp_initial_counter">Initial Counter</string>
     <string name="type_text">Text</string>
     <string name="type_url">URL</string>
     <string name="type_tel">Telephone Number</string>
@@ -65,6 +74,7 @@
     <string name="type_store">Play Store App</string>
     <string name="type_crypto_currency">Crypto Currency</string>
     <string name="type_sip">SIP Address</string>
+    <string name="type_otp">Two Factor Authentication</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="birthday_date_format">yyyy.MM.dd</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>

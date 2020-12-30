@@ -13,7 +13,7 @@ import de.maxhenkel.qrscanner.parser.query.Query;
 
 public class CryptoCurrencyElement extends ScanElement {
 
-    public static final Pattern CRYPTO = Pattern.compile("^(bitcoin|bitcoincash|ethereum|litecoin|dash):([^?]+)(?:\\?(.*))?$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern CRYPTO = Pattern.compile("^(bitcoin|bitcoincash|ethereum|litecoin|dash):([^?]+)(\\?.*)?$", Pattern.CASE_INSENSITIVE);
 
     private String type;
     private String address;

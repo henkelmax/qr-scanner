@@ -89,6 +89,9 @@ public class QRCodeParser {
         if ((m = SipElement.SIP.matcher(result.getData())).matches()) {
             return SipElement.sip(result, m);
         }
+        if ((m = OTPElement.OTPAUTH.matcher(result.getData())).matches()) {
+            return OTPElement.otpauth(result, m);
+        }
 
         return new TextElement(result);
     }

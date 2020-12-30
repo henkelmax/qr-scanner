@@ -128,3 +128,17 @@ END:VEVENT
 ![SIP](sip.png)
 
 `sip:1234567@example.com:1234`
+
+## Two Factor Authentication
+
+### TOTP
+
+![TOTP](totp.png)
+
+`otpauth://totp/My%20Google%202FA?secret=JBSWY3DPEHPK3PXP&issuer=Google&algorithm=SHA1&digits=6&period=30`
+
+### HOTP
+
+![HOTP](hotp.png)
+
+`otpauth://hotp/My%20Google%202FA?secret=JBSWY3DPEHPK3PXP&issuer=Google&counter=0&algorithm=SHA1&digits=6`

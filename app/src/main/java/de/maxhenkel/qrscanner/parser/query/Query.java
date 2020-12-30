@@ -9,7 +9,10 @@ import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Method;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -149,6 +152,31 @@ public class Query {
 
     private String join(String delimiter, String... elements) {
         return TextUtils.join(delimiter, elements);
+    }
+
+    private static final Method DECODE;
+
+    static {
+        Method d;
+        try {
+            d = URLEncodedUtils.class.getDeclaredMethod("urlDecode", String.class, Charset.class, boolean.class);
+            d.setAccessible(true);
+        } catch (NoSuchMethodException e) {
+            d = null;
+        }
+        DECODE = d;
+    }
+
+    public static String decode(String encoded, boolean plusAsBlank) {
+        try {
+            return (String) DECODE.invoke(null, encoded, StandardCharsets.UTF_8, plusAsBlank);
+        } catch (Exception e) {
+            try {
+                return URLDecoder.decode(encoded, StandardCharsets.UTF_8.name());
+            } catch (Exception ex) {
+                return encoded;
+            }
+        }
     }
 
 }
