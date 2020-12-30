@@ -156,3 +156,20 @@ END:VEVENT
 ![Payto](payto.png)
 
 `payto://sepa/DE1234567890?amount=EUR:420.69&creditor-name=John%20Doe&debitor-name=Jane%20Doe&message=Here%20is%20your%20money&instruction=Save%20it`
+
+### EPC
+
+![EPC](epc.png)
+
+``` epc
+BCD
+001
+1
+SCT
+ABCDEF
+John Doe
+DE1234567890
+EUR420
+Your money!
+Save it!
+```

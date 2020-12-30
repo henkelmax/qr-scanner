@@ -2,6 +2,8 @@ package de.maxhenkel.qrscanner.parser;
 
 import java.util.regex.Matcher;
 
+import de.maxhenkel.qrscanner.parser.epc.EPC;
+import de.maxhenkel.qrscanner.parser.epc.EPCParser;
 import de.maxhenkel.qrscanner.parser.bizcard.BizCard;
 import de.maxhenkel.qrscanner.parser.bizcard.BizCardParser;
 import de.maxhenkel.qrscanner.parser.email.Email;
@@ -102,6 +104,12 @@ public class QRCodeParser {
         }
         if ((m = PaytoElement.PAYTO.matcher(result.getData())).matches()) {
             return PaytoElement.payto(result, m);
+        }
+        if ((m = EPCParser.EPC.matcher(result.getData())).matches()) {
+            EPC epc = EPCParser.parse(result.getData());
+            if (epc != null) {
+                return new EPCElement(result, epc);
+            }
         }
 
         return new TextElement(result);

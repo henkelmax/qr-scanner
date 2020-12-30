@@ -54,6 +54,7 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 - Payment
   - [RFC 8905](https://tools.ietf.org/html/rfc8905) (`payto:`)
   - [Short Payment Descriptor](https://en.wikipedia.org/wiki/Short_Payment_Descriptor) (SPD)
+  - [EPC](https://en.wikipedia.org/wiki/EPC_QR_code)
 
 ## Supported Barcode Types
 

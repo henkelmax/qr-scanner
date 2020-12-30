@@ -78,6 +78,8 @@
     <string name="title_payment_creditor_name">Creditor Name</string>
     <string name="title_payment_debitor_name">Debitor Name</string>
     <string name="title_payment_instruction">Instruction</string>
+    <string name="title_payment_identification">Identification</string>
+    <string name="title_payment_information">Information</string>
     <string name="type_text">Text</string>
     <string name="type_url">URL</string>
     <string name="type_tel">Telephone Number</string>
