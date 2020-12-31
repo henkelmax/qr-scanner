@@ -38,6 +38,7 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         flashLayout = findViewById(R.id.flashLayout);
         history = findViewById(R.id.history);
         scannerView.decodeContinuous(result -> {
+            scannerView.pause();
             vibrator.vibrate(50L);
 
             ScanResult scanResult = new ScanResult(result.getTimestamp(), result.getText());
