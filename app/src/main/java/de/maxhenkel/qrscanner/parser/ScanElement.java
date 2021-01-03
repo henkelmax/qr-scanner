@@ -68,6 +68,9 @@ public abstract class ScanElement {
             } catch (ActivityNotFoundException e) {
                 showNoActivityFoundToast(context);
                 return false;
+            } catch (Exception e) {
+                showOpenErrorToast(context);
+                return false;
             }
         } else {
             showNoActivityFoundToast(context);
@@ -77,6 +80,10 @@ public abstract class ScanElement {
 
     protected void showNoActivityFoundToast(Context context) {
         Toast.makeText(context, R.string.toast_no_activity_found, Toast.LENGTH_LONG).show();
+    }
+
+    protected void showOpenErrorToast(Context context) {
+        Toast.makeText(context, R.string.toast_open_uri_error, Toast.LENGTH_LONG).show();
     }
 
     public void create(ScanResultActivity activity) {

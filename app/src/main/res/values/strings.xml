@@ -13,6 +13,7 @@
     <string name="open_sip">Call</string>
     <string name="open_otp">Open</string>
     <string name="open_payment">Open</string>
+    <string name="open_uri">Open</string>
     <string name="title_numbers">Number(s)</string>
     <string name="title_email_recipients">Recipients</string>
     <string name="title_email_cc">CC</string>
@@ -95,6 +96,7 @@
     <string name="type_sip">SIP Address</string>
     <string name="type_otp">Two Factor Authentication</string>
     <string name="type_payment">Payment</string>
+    <string name="type_uri">URI</string>
     <string name="date_format">yyyy.MM.dd HH:mm</string>
     <string name="birthday_date_format">yyyy.MM.dd</string>
     <string name="toast_wifi_config_success">Successfully applied config</string>
@@ -103,6 +105,7 @@
     <string name="toast_save_success">Successfully saved file</string>
     <string name="toast_save_failed">Failed saving file</string>
     <string name="toast_load_history_failed">Failed loading history</string>
+    <string name="toast_open_uri_error">Failed to open this URI</string>
     <string name="preview_geo">Latitude: %1$.3f, Longitude: %2$.3f</string>
     <string name="view_raw">View Raw</string>
     <string name="save">Save as File</string>

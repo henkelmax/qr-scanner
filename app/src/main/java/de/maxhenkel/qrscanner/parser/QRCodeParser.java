@@ -111,6 +111,9 @@ public class QRCodeParser {
                 return new EPCElement(result, epc);
             }
         }
+        if ((m = URIElement.URI.matcher(result.getData())).matches()) {
+            return new URIElement(result);
+        }
 
         return new TextElement(result);
     }
