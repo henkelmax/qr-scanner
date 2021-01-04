@@ -6,6 +6,7 @@ A simple QR code scanner aimed at providing the best compatibility of all format
 
 - [Downloads](https://github.com/henkelmax/qr-scanner/releases)
 - [Example QR Codes](examples/)
+- [Play Store](https://play.google.com/apps/testing/de.maxhenkel.qrscanner)
 
 ## Features
 
