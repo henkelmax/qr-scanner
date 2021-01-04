@@ -27,6 +27,7 @@ public class HistoryActivity extends Activity {
 
     private SimpleDateFormat dateFormat;
     private ListView listView;
+    private TextView noHistory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,14 +35,18 @@ public class HistoryActivity extends Activity {
         setContentView(R.layout.activity_history);
 
         listView = findViewById(R.id.listView);
+        noHistory = findViewById(R.id.noHistory);
         dateFormat = new SimpleDateFormat(getString(R.string.date_format));
-
 
         new Thread(() -> {
             try {
                 List<ScanResult> list = ScanHistory.get(this);
                 runOnUiThread(() -> {
                     listView.setAdapter(new HistoryArrayAdapter(this, list));
+                    if (listView.getAdapter().isEmpty()) {
+                        noHistory.setVisibility(View.VISIBLE);
+                        listView.setVisibility(View.GONE);
+                    }
                 });
             } catch (Exception e) {
                 e.printStackTrace();

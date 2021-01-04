@@ -109,4 +109,5 @@
     <string name="preview_geo">Latitude: %1$.3f, Longitude: %2$.3f</string>
     <string name="view_raw">View Raw</string>
     <string name="save">Save as File</string>
+    <string name="no_history">You have no scanning history</string>
 </resources>
