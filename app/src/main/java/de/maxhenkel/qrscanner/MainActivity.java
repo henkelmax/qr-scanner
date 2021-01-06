@@ -24,7 +24,6 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
     private CaptureManager captureManager;
     private ImageButton flash;
     private View flashLayout;
-    private View history;
     private boolean torch;
 
     @Override
@@ -36,7 +35,6 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         scannerView = findViewById(R.id.scanner);
         flash = findViewById(R.id.flash);
         flashLayout = findViewById(R.id.flashLayout);
-        history = findViewById(R.id.history);
         scannerView.decodeContinuous(result -> {
             scannerView.pause();
             vibrator.vibrate(50L);
@@ -64,21 +62,21 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
             flashLayout.setVisibility(View.GONE);
         }
 
-        flashLayout.setOnClickListener(v -> {
-            if (torch) {
-                scannerView.setTorchOff();
-            } else {
-                scannerView.setTorchOn();
-            }
-        });
-
-        history.setOnClickListener(v -> {
-            startActivity(new Intent(this, HistoryActivity.class));
-        });
-
         captureManager = new CaptureManager(this, scannerView);
         captureManager.initializeFromIntent(getIntent(), savedInstanceState);
         captureManager.setShowMissingCameraPermissionDialog(false);
+    }
+
+    public void onFlashClick(View view) {
+        if (torch) {
+            scannerView.setTorchOff();
+        } else {
+            scannerView.setTorchOn();
+        }
+    }
+
+    public void onHistoryClick(View view) {
+        startActivity(new Intent(this, HistoryActivity.class));
     }
 
     @Override
