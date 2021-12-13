@@ -12,8 +12,10 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 
+import com.google.zxing.client.android.Intents;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
+import com.journeyapps.barcodescanner.DefaultDecoderFactory;
 import com.journeyapps.barcodescanner.camera.CameraSettings;
 
 import de.maxhenkel.qrscanner.parser.ScanResult;
@@ -57,6 +59,8 @@ public class MainActivity extends Activity implements DecoratedBarcodeView.Torch
         CameraSettings settings = new CameraSettings();
         settings.setFocusMode(CameraSettings.FocusMode.CONTINUOUS);
         scannerView.setCameraSettings(settings);
+
+        scannerView.setDecoderFactory(new DefaultDecoderFactory(null, null, null, Intents.Scan.MIXED_SCAN));
 
         if (!getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
             flashLayout.setVisibility(View.GONE);
