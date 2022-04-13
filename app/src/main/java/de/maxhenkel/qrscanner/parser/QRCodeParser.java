@@ -24,7 +24,7 @@ public class QRCodeParser {
     public static ScanElement parse(ScanResult result) {
         Matcher m;
         if ((m = URLElement.URL.matcher(result.getData())).matches()) {
-            return new URLElement(result, result.getData());
+            return new URLElement(result, m.group(1));
         }
         if ((m = URLElement.URLTO.matcher(result.getData())).matches()) {
             return new URLElement(result, m.group(1));

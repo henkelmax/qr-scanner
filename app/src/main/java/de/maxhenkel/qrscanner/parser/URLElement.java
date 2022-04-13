@@ -12,7 +12,7 @@ import de.maxhenkel.qrscanner.ScanResultActivity;
 
 public class URLElement extends ScanElement {
 
-    public static final Pattern URL = Pattern.compile("^(https?|ftp)://.+$", Pattern.CASE_INSENSITIVE);
+    public static final Pattern URL = Pattern.compile("^(?:url:)?((https?|ftp)://.+)$", Pattern.CASE_INSENSITIVE);
     public static final Pattern URLTO = Pattern.compile("^urlto:(((https?|ftp)://)?.*)$", Pattern.CASE_INSENSITIVE);
 
     private String url;
@@ -20,6 +20,10 @@ public class URLElement extends ScanElement {
     public URLElement(ScanResult result, String url) {
         super(result);
         this.url = url;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     @Override
